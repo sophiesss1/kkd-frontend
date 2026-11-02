@@ -1,0 +1,17 @@
+services:
+  # Mock API собирается прямо из репозитория задания — клонировать его отдельно не нужно
+  mock-api:
+    build: https://gitverse.ru/kkk_s/moc_api_kkd.git
+    ports:
+      - "8000:8000"
+    environment:
+      MOCK_LATENCY_MS: ${MOCK_LATENCY_MS:-300}
+
+  web:
+    build: .
+    ports:
+      - "3000:80"
+    environment:
+      API_URL: ${API_URL:-http://mock-api:8000}
+    depends_on:
+      - mock-api

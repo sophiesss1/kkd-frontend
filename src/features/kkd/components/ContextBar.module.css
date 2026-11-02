@@ -1,0 +1,29 @@
+.root {
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-secondary);
+}
+
+.unitSelect {
+  width: 320px;
+}
+
+.runSelect {
+  width: 220px;
+}
+
+.runOption {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}

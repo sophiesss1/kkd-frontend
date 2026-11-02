@@ -1,0 +1,149 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 12px;
+  min-width: 0;
+}
+
+.heading {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.hint {
+  margin: 4px 0 12px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-secondary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li + li {
+  border-top: 1px solid var(--ant-color-border-secondary);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px 168px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px;
+  margin: 0 -8px;
+  box-sizing: content-box;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--ant-color-fill-tertiary);
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--ant-color-primary);
+  outline-offset: -2px;
+}
+
+.rowName {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.unitName {
+  font-weight: 500;
+  color: var(--ant-color-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowMeta {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowValue {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.rowDelta {
+  min-width: 0;
+}
+
+.clean {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--ant-color-success-text);
+}
+
+.more {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-tertiary);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.counts {
+  margin: 0;
+  color: var(--ant-color-text-secondary);
+}
+
+.treeButton {
+  margin-left: auto;
+}
+
+.treeLink {
+  font-weight: 500;
+}
+
+.caveat {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: fit-content;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: var(--ant-color-warning-bg);
+  color: var(--ant-color-warning-text);
+}
+
+.caveatIcon {
+  margin-top: 5px;
+}

@@ -1,0 +1,85 @@
+.root {
+  margin: 0;
+}
+
+.caption {
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-secondary);
+}
+
+.skeleton {
+  height: 92px !important;
+}
+
+.bars {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ant-border-radius-sm);
+  background: var(--ant-color-bg-layout);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.bar:focus-visible {
+  outline: 2px solid var(--ant-color-primary);
+  outline-offset: 2px;
+}
+
+.fill {
+  width: 100%;
+  border-radius: var(--ant-border-radius-sm);
+  background: var(--ant-color-fill);
+  transition: background 0.2s;
+}
+
+.bar:hover .fill {
+  background: var(--ant-color-primary-bg);
+}
+
+.selected .fill,
+.selected:hover .fill {
+  background: var(--ant-color-primary);
+}
+
+.gap {
+  align-self: center;
+  color: var(--ant-color-error-text);
+  font-weight: 600;
+}
+
+.date {
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--ant-color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.dateSelected {
+  color: var(--ant-color-text);
+  font-weight: 600;
+}

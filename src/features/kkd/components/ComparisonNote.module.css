@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: var(--ant-border-radius-lg);
+  background: var(--ant-color-primary-bg);
+  color: var(--ant-color-text);
+}
+
+.icon {
+  color: var(--ant-color-primary);
+}
+
+.secondary {
+  color: var(--ant-color-text-secondary);
+}

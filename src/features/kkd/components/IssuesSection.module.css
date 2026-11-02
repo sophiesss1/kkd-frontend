@@ -1,0 +1,74 @@
+.card {
+  padding: 24px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 12px;
+  scroll-margin-top: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.export {
+  margin-left: auto;
+  align-self: center;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ruleFilter {
+  width: 280px;
+}
+
+.filter {
+  width: 200px;
+}
+
+.search {
+  width: 300px;
+}
+
+.sort {
+  width: 180px;
+}
+
+.hint {
+  margin: 8px 0 12px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-tertiary);
+}
+
+.cellStack {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondary {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-secondary);
+}
+
+.problemLink {
+  font-weight: 500;
+}
+
+.row {
+  cursor: pointer;
+}

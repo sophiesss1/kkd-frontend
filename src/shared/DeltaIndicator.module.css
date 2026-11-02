@@ -1,0 +1,49 @@
+.root {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.default {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.small {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.icon {
+  align-self: center;
+  font-size: 12px;
+}
+
+.label {
+  font-weight: 400;
+}
+
+.pct {
+  font-weight: 400;
+  color: var(--ant-color-text-secondary);
+}
+
+.better {
+  color: var(--ant-color-success-text);
+}
+
+.worse {
+  color: var(--ant-color-error-text);
+}
+
+.neutral {
+  color: var(--ant-color-text-secondary);
+}
+
+.none {
+  color: var(--ant-color-text-tertiary);
+  font-weight: 400;
+}

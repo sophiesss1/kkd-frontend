@@ -1,0 +1,19 @@
+.tag {
+  margin-inline-end: 0;
+  white-space: nowrap;
+}
+
+.new {
+  background: var(--ant-color-error-bg);
+  color: var(--ant-color-error-text);
+}
+
+.persisting {
+  background: var(--ant-color-fill);
+  color: var(--ant-color-text);
+}
+
+.resolved {
+  background: var(--ant-color-success-bg);
+  color: var(--ant-color-success-text);
+}

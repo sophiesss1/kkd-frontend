@@ -1,0 +1,75 @@
+.card {
+  height: 100%;
+  padding: 20px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 12px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) 40px 168px auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.rule {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ruleTitle {
+  font-weight: 500;
+}
+
+.ruleHint {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.count {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.delta {
+  min-width: 0;
+}
+
+.clean {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 0;
+  color: var(--ant-color-success-text);
+}
+
+.more {
+  padding-inline: 0;
+  margin-top: 4px;
+}

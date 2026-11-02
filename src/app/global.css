@@ -1,0 +1,18 @@
+/* Базовые стили документа. Цвета — только из CSS-переменных темы antd (theme.cssVar). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+}

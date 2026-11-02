@@ -1,0 +1,154 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(132px, auto);
+  gap: 16px;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 16px;
+}
+
+.keyRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 12px;
+  min-width: 0;
+}
+
+.grid .hero {
+  grid-row: span 2;
+}
+
+.hero {
+  padding: 24px;
+  gap: 8px;
+}
+
+.cardHeading {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--ant-color-text-secondary);
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info {
+  color: var(--ant-color-text-tertiary);
+  font-size: 12px;
+  cursor: help;
+}
+
+.value {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.heroValue {
+  font-size: 38px;
+  line-height: 46px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.heroFooter {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.verdict {
+  margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.verdictBase {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--ant-color-text-secondary);
+}
+
+.better {
+  color: var(--ant-color-success-text);
+}
+
+.worse {
+  color: var(--ant-color-error-text);
+}
+
+.neutral {
+  color: var(--ant-color-text-secondary);
+}
+
+.deltaRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.previous {
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--ant-color-text-tertiary);
+}
+
+.volume {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 40px;
+  margin: 0;
+  padding: 12px 20px;
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 12px;
+  background: var(--ant-color-bg-container);
+}
+
+.volumeItem {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.volumeItem dt {
+  color: var(--ant-color-text-secondary);
+}
+
+.volumeItem dd {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
+
+.volumeValue {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

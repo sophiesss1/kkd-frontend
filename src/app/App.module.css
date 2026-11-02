@@ -1,0 +1,36 @@
+.app {
+  min-height: 100vh;
+  background: var(--ant-color-bg-layout);
+  color: var(--ant-color-text);
+}
+
+.header {
+  height: 72px;
+  background: var(--ant-color-bg-container);
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  height: 100%;
+  max-width: 1440px;
+  min-width: 1232px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.logoIcon {
+  color: var(--ant-color-primary);
+  font-size: 20px;
+}
