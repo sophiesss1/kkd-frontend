@@ -1,9 +1,11 @@
-import { Modal, Table, Typography } from 'antd';
+import { Modal, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { DeltaIndicator } from '../../../shared/DeltaIndicator';
 import { formatMetricValue, formatNumber } from '../../../shared/format';
-import type { BreakdownRow, UnitsBreakdown } from '../unitsBreakdown';
-import styles from './UnitsBreakdown.module.css';
+import { LinkButton } from '../../../shared/LinkButton';
+import { ModalTitle } from '../../../shared/ModalTitle';
+import type { BreakdownRow, UnitsBreakdownData } from '../unitsBreakdown';
+import styles from './UnitsTreeModal.module.css';
 
 type TreeRow = BreakdownRow & { children?: TreeRow[] };
 
@@ -20,13 +22,12 @@ function buildTree(rows: BreakdownRow[], rootId: string): TreeRow[] {
   return roots;
 }
 
-const count = (value: number | null) =>
-  value === null ? <Typography.Text type="secondary">—</Typography.Text> : formatNumber(value);
+const count = (value: number | null) => (value === null ? <span className={styles.muted}>—</span> : formatNumber(value));
 
 interface Props {
   open: boolean;
   unitId: string;
-  breakdown: UnitsBreakdown;
+  breakdown: UnitsBreakdownData;
   onSelectUnit: (unitId: string) => void;
   onClose: () => void;
 }
@@ -37,9 +38,9 @@ export function UnitsTreeModal({ open, unitId, breakdown, onSelectUnit, onClose 
       title: 'Подразделение',
       key: 'name',
       render: (_, row) => (
-        <Typography.Link onClick={() => onSelectUnit(row.id)} className={styles.treeLink}>
+        <LinkButton onClick={() => onSelectUnit(row.id)} className={styles.unitLink}>
           {row.name}
-        </Typography.Link>
+        </LinkButton>
       ),
     },
     {
@@ -52,7 +53,7 @@ export function UnitsTreeModal({ open, unitId, breakdown, onSelectUnit, onClose 
     {
       title: 'Изменение',
       key: 'delta',
-      width: 190,
+      width: 180,
       render: (_, row) => (
         <DeltaIndicator delta={row.clean_goals_share_delta} trend={row.trend} unit="%" size="small" />
       ),
@@ -65,7 +66,15 @@ export function UnitsTreeModal({ open, unitId, breakdown, onSelectUnit, onClose 
   ];
 
   return (
-    <Modal open={open} onCancel={onClose} footer={null} width={1160} title="Все вложенные подразделения" destroyOnHidden>
+    <Modal
+      open={open}
+      onCancel={onClose}
+      footer={null}
+      width={1200}
+      title={<ModalTitle>Все вложенные подразделения</ModalTitle>}
+      closable={{ 'aria-label': 'Закрыть' }}
+      destroyOnHidden
+    >
       <p className={styles.hint}>
         Метрики подразделения учитывают его дочерние. Нажмите на название, чтобы открыть подразделение.
       </p>

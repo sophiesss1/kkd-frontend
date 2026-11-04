@@ -35,11 +35,10 @@ export function DeltaIndicator({ delta, trend, unit, deltaPct, size = 'default' 
   const text = formatDelta(delta, unit);
   const showPct = deltaPct !== null && deltaPct !== undefined && unit !== '%' && delta !== 0;
 
+  // без aria-label: у span нет роли, и подпись заменила бы видимый текст (в ней не было процента).
+  // Экранный диктор читает то же, что видно: знак и число, процент, «лучше / хуже»; стрелка — только для глаз.
   return (
-    <span
-      className={`${styles.root} ${tone} ${styles[size]}`}
-      aria-label={`Изменение ${text}${label ? `, ${label}` : ''}`}
-    >
+    <span className={`${styles.root} ${tone} ${styles[size]}`}>
       <Icon aria-hidden className={styles.icon} />
       <span className={styles.value}>{text}</span>
       {showPct && <span className={styles.pct}>({formatPercentChange(deltaPct)})</span>}

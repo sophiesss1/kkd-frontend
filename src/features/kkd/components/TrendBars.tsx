@@ -1,7 +1,8 @@
 import { Skeleton, Tooltip } from 'antd';
-import { useTrend } from '../../../api/queries';
+import { useRetryFailed, useTrend } from '../../../api/queries';
 import type { TrendPoint } from '../../../api/types';
 import { formatDate, formatMetricValue } from '../../../shared/format';
+import { QueryError } from '../../../shared/QueryError';
 import styles from './TrendBars.module.css';
 
 interface Props {
@@ -20,7 +21,11 @@ function describe(point: TrendPoint, unit: string) {
 /** Динамика метрики по последним прогонам. Значения — из GET /api/kkd/trend, высота столбца — только визуализация. */
 export function TrendBars({ unitId, metric, selectedRunId, onSelectRun }: Props) {
   const trend = useTrend(unitId, metric);
+  const retryFailed = useRetryFailed();
   if (trend.isPending) return <Skeleton.Input active block className={styles.skeleton} />;
+  if (trend.isError) {
+    return <QueryError error={trend.error} onRetry={retryFailed} title="Не удалось загрузить динамику по прогонам" />;
+  }
   if (!trend.data) return null;
 
   const { points, metric: meta } = trend.data;
@@ -36,12 +41,15 @@ export function TrendBars({ unitId, metric, selectedRunId, onSelectRun }: Props)
           const label = `${point.run_id} от ${formatDate(point.snapshot_date)}: ${describe(point, meta.unit)}`;
           return (
             <li key={point.run_id} className={styles.item}>
-              <Tooltip title={label}>
+              <Tooltip title={label} trigger={['hover', 'focus']}>
                 <button
                   type="button"
                   className={`${styles.bar} ${selected ? styles.selected : ''}`}
-                  onClick={() => onSelectRun(point.run_id)}
-                  aria-label={`${label}. Открыть прогон`}
+                  // показанный прогон уже открыт: повторный клик не добавляет запись в историю и не сбрасывает страницу
+                  onClick={() => {
+                    if (!selected) onSelectRun(point.run_id);
+                  }}
+                  aria-label={selected ? `${label}. Показан сейчас` : `${label}. Открыть прогон`}
                   aria-current={selected || undefined}
                 >
                   {hasValue ? (

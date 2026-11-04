@@ -26,7 +26,12 @@ export function ComparisonNote({ run, runs }: Props) {
   }
 
   // Прогоны между текущим и базой сравнения — неуспешные: API сравнивает с предыдущим успешным.
+  // «С ошибкой» пишем, только если так и есть по статусу: пропущенный может и выполняться.
   const skipped = base ? runs.filter((r) => r.number > base.number && r.number < run.number) : [];
+  const many = skipped.length > 1;
+  const reason = skipped.every((r) => r.status === 'failed')
+    ? `завершил${many ? 'ись' : 'ся'} с ошибкой`
+    : `не завершил${many ? 'ись' : 'ся'} успешно`;
 
   return (
     <p className={styles.root}>
@@ -38,8 +43,7 @@ export function ComparisonNote({ run, runs }: Props) {
         {skipped.length > 0 && (
           <span className={styles.secondary}>
             {' '}
-            — {skipped.map((r) => r.id).join(', ')} пропущен{skipped.length > 1 ? 'ы' : ''}: завершил
-            {skipped.length > 1 ? 'ись' : 'ся'} с ошибкой
+            — {skipped.map((r) => r.id).join(', ')} пропущен{many ? 'ы' : ''}: {reason}
           </span>
         )}
       </span>

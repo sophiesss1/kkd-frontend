@@ -1,0 +1,7 @@
+/* Экран «результатов нет» — на карточке, как пустое подразделение: на фоне страницы вторичный текст кита
+   (причина ошибки прогона) даёт 4,3:1, на фоне карточки — 4,7:1. */
+.card {
+  background: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: var(--ant-border-radius-lg);
+}

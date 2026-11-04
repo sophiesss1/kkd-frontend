@@ -1,4 +1,4 @@
-import { Select, Space, Tag, TreeSelect, Typography } from 'antd';
+import { Select, Space, Tag, TreeSelect } from 'antd';
 import { useMemo } from 'react';
 import type { Run, Unit } from '../../../api/types';
 import { formatDate } from '../../../shared/format';
@@ -48,7 +48,8 @@ export function ContextBar({ units, runs, unitId, runId, onUnitChange, onRunChan
       label: (
         <span className={styles.runOption}>
           <span>
-            {run.id} <Typography.Text type="secondary">от {formatDate(run.snapshot_date)}</Typography.Text>
+            {/* не Typography type="secondary": в antd 5 он красит третичным цветом */}
+            {run.id} <span className={styles.runDate}>от {formatDate(run.snapshot_date)}</span>
           </span>
           {statusTag && <Tag color={statusTag.color}>{statusTag.text}</Tag>}
           {run.id === latestCompletedId && <Tag>последний</Tag>}

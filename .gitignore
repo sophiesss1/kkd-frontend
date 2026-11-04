@@ -1,6 +1,10 @@
 node_modules
 dist
+# локальные настройки окружения: Vite читает и .env.local, и .env.production*
 .env
+.env.*
+!.env.example
+*.local
 *.log
 *.tsbuildinfo
 .DS_Store

@@ -54,4 +54,12 @@ describe('apiGet', () => {
     mockFetch(async () => new Response('Bad Gateway', { status: 502 }));
     await expect(apiGet('/api/meta')).rejects.toMatchObject({ code: 'SERVICE_UNAVAILABLE' });
   });
+
+  it('успешный ответ не в JSON (адрес API указывает на фронтенд) — понятная ошибка, а не null', async () => {
+    mockFetch(async () => new Response('<!doctype html><title>ККД</title>', { status: 200 }));
+    await expect(apiGet('/api/runs')).rejects.toMatchObject({
+      code: 'INVALID_RESPONSE',
+      message: 'Сервер ответил не в формате API. Проверьте адрес API.',
+    });
+  });
 });

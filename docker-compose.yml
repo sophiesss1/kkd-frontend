@@ -1,14 +1,18 @@
 services:
-  # Mock API собирается прямо из репозитория задания — клонировать его отдельно не нужно
+  # Mock API собирается из репозитория задания (см. mock-api/Dockerfile) — клонировать его отдельно не нужно
   mock-api:
-    build: https://gitverse.ru/kkk_s/moc_api_kkd.git
+    build: ./mock-api
     ports:
       - "8000:8000"
     environment:
       MOCK_LATENCY_MS: ${MOCK_LATENCY_MS:-300}
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        # необязательный прямой адрес API для браузера, подставляется при сборке (см. README)
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
     ports:
       - "3000:80"
     environment:

@@ -13,7 +13,7 @@ export interface BreakdownRow extends UnitMetricsRow {
   path: string[];
 }
 
-export interface UnitsBreakdown {
+export interface UnitsBreakdownData {
   /** Есть ли у прогона база сравнения (в первом прогоне нет). */
   hasComparison: boolean;
   /** Все вложенные подразделения любой глубины в порядке оргструктуры. */
@@ -30,7 +30,7 @@ export function buildUnitsBreakdown(
   unitId: string,
   higherIsBetter: boolean | null,
   hasComparison: boolean,
-): UnitsBreakdown {
+): UnitsBreakdownData {
   const children = new Map<string, UnitMetricsRow[]>();
   for (const item of items) {
     if (!item.parent_id) continue;

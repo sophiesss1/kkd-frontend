@@ -30,7 +30,7 @@
   padding: 20px;
   background: var(--ant-color-bg-container);
   border: 1px solid var(--ant-color-border-secondary);
-  border-radius: 12px;
+  border-radius: var(--ant-border-radius-lg);
   min-width: 0;
 }
 
@@ -45,8 +45,8 @@
 
 .cardHeading {
   margin: 0;
-  font-size: 14px;
-  line-height: 22px;
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
   font-weight: 400;
   color: var(--ant-color-text-secondary);
 }
@@ -54,26 +54,27 @@
 .title {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .info {
   color: var(--ant-color-text-tertiary);
-  font-size: 12px;
+  font-size: var(--ant-font-size-sm);
   cursor: help;
 }
 
+/* крупные числа в карточках метрик по UI-KIT — 24–30 px: главная берёт верхнюю границу, остальные 24 px */
 .value {
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: 600;
+  font-size: var(--ant-font-size-heading-3);
+  line-height: var(--ant-line-height-heading-3);
+  font-weight: var(--ant-font-weight-strong);
   font-variant-numeric: tabular-nums;
 }
 
 .heroValue {
-  font-size: 38px;
-  line-height: 46px;
-  font-weight: 600;
+  font-size: var(--ant-font-size-heading-2);
+  line-height: var(--ant-line-height-heading-2);
+  font-weight: var(--ant-font-weight-strong);
   font-variant-numeric: tabular-nums;
 }
 
@@ -84,14 +85,14 @@
 
 .verdict {
   margin: 0;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 600;
+  font-size: var(--ant-font-size-heading-4);
+  line-height: var(--ant-line-height-heading-4);
+  font-weight: var(--ant-font-weight-strong);
 }
 
 .verdictBase {
-  font-size: 14px;
-  line-height: 22px;
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
   font-weight: 400;
   color: var(--ant-color-text-secondary);
 }
@@ -111,13 +112,13 @@
 .deltaRow {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .previous {
-  font-size: 12px;
-  line-height: 20px;
-  color: var(--ant-color-text-tertiary);
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
+  color: var(--ant-color-text-secondary);
 }
 
 .volume {
@@ -127,7 +128,7 @@
   margin: 0;
   padding: 12px 20px;
   border: 1px solid var(--ant-color-border-secondary);
-  border-radius: 12px;
+  border-radius: var(--ant-border-radius-lg);
   background: var(--ant-color-bg-container);
 }
 
@@ -149,6 +150,6 @@
 }
 
 .volumeValue {
-  font-weight: 600;
+  font-weight: var(--ant-font-weight-strong);
   font-variant-numeric: tabular-nums;
 }

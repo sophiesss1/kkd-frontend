@@ -3,6 +3,22 @@
   white-space: nowrap;
 }
 
+.critical {
+  background: var(--ant-color-error-bg);
+  border-color: var(--ant-color-error-border);
+  color: var(--ant-color-error-text);
+}
+
+.major {
+  background: var(--ant-color-warning-bg);
+  border-color: var(--ant-color-warning-border);
+  color: var(--ant-color-warning-text);
+}
+
+.minor {
+  color: var(--ant-color-text-secondary);
+}
+
 .new {
   background: var(--ant-color-error-bg);
   color: var(--ant-color-error-text);

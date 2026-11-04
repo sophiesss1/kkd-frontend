@@ -1,0 +1,27 @@
+.root {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: var(--ant-color-link);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.root:hover {
+  color: var(--ant-color-link-hover);
+}
+
+.root:active {
+  color: var(--ant-color-link-active);
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--ant-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--ant-border-radius-sm);
+}

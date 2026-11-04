@@ -22,18 +22,20 @@ function MetricTitle({ metric }: { metric: Metric }) {
   return (
     <span className={styles.title}>
       {metric.title}
-      <Tooltip title={`Формула: ${metric.formula}`}>
+      <Tooltip title={`Формула: ${metric.formula}`} trigger={['hover', 'focus']}>
         <InfoCircleOutlined className={styles.info} aria-label={`Как считается: ${metric.formula}`} tabIndex={0} />
       </Tooltip>
     </span>
   );
 }
 
-function Previous({ metric, comparedTo }: { metric: Metric; comparedTo: Run | null }) {
-  if (metric.previous === null || !comparedTo) return null;
+/** Прошлое значение. В строке объёма — без номера прогона: он уже есть в плашке сравнения. */
+function Previous({ metric, comparedTo }: { metric: Metric; comparedTo?: Run | null }) {
+  if (metric.previous === null) return null;
   return (
     <span className={styles.previous}>
-      было {formatMetricValue(metric.previous, metric.unit)} в {comparedTo.id}
+      было {formatMetricValue(metric.previous, metric.unit)}
+      {comparedTo && <> в {comparedTo.id}</>}
     </span>
   );
 }
@@ -122,6 +124,7 @@ export function MetricsOverview({ metrics, comparedTo, verdictNote, heroFooter, 
               <dd>
                 <span className={styles.volumeValue}>{formatMetricValue(m.value, m.unit)}</span>
                 <DeltaIndicator delta={m.delta} trend={m.trend} unit={m.unit} size="small" />
+                <Previous metric={m} />
               </dd>
             </div>
           ))}

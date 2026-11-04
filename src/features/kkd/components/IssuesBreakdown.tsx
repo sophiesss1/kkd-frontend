@@ -2,15 +2,22 @@ import { CheckCircleOutlined, ClockCircleOutlined, PlusCircleOutlined, RightOutl
 import type { ReactNode } from 'react';
 import type { DeltaStatus, Metric, SeverityCode, Summary } from '../../../api/types';
 import { DeltaIndicator, NO_COMPARISON_TEXT, trendFromDirection } from '../../../shared/DeltaIndicator';
+import { useDictionaries } from '../../../shared/dictionaries';
 import { formatMetricValue, formatNumber } from '../../../shared/format';
 import { SeverityTag } from '../../../shared/tags';
+import { VisuallyHidden } from '../../../shared/VisuallyHidden';
 import styles from './IssuesBreakdown.module.css';
 
-const DELTA_COUNTERS: { code: DeltaStatus; title: string; hint: string; icon: ReactNode; tone: string }[] = [
-  { code: 'new', title: 'Новые', hint: 'появились в этом прогоне', icon: <PlusCircleOutlined aria-hidden />, tone: styles.new },
-  { code: 'persisting', title: 'Сохраняются', hint: 'были и в прошлом прогоне', icon: <ClockCircleOutlined aria-hidden />, tone: styles.persisting },
-  { code: 'resolved', title: 'Исправлены', hint: 'были в прошлом прогоне, теперь нет', icon: <CheckCircleOutlined aria-hidden />, tone: styles.resolved },
-];
+/**
+ * Оформление счётчиков. Заголовки во множественном числе с пояснением — текст интерфейса, а не справочник:
+ * в /api/meta статусы подписаны в единственном числе («Новая»), так они и выводятся в тегах и фильтре.
+ * Какие счётчики и в каком порядке — по справочнику статусов из /api/meta.
+ */
+const DELTA_COUNTER_VIEW: Record<DeltaStatus, { title: string; hint: string; icon: ReactNode; tone: string }> = {
+  new: { title: 'Новые', hint: 'появились в этом прогоне', icon: <PlusCircleOutlined aria-hidden />, tone: styles.new },
+  persisting: { title: 'Сохраняются', hint: 'были и в прошлом прогоне', icon: <ClockCircleOutlined aria-hidden />, tone: styles.persisting },
+  resolved: { title: 'Исправлены', hint: 'были в прошлом прогоне, теперь нет', icon: <CheckCircleOutlined aria-hidden />, tone: styles.resolved },
+};
 
 interface Props {
   summary: Summary;
@@ -23,6 +30,8 @@ interface Props {
 
 export function IssuesBreakdown({ summary, issuesTotal, issuesHigherIsBetter, onDeltaStatusClick, onSeverityClick }: Props) {
   const hasComparison = summary.compared_to !== null;
+  const { deltaStatusCodes } = useDictionaries();
+  const counters = deltaStatusCodes.map((code) => ({ code, ...DELTA_COUNTER_VIEW[code] }));
 
   return (
     <div className={styles.root}>
@@ -32,7 +41,7 @@ export function IssuesBreakdown({ summary, issuesTotal, issuesHigherIsBetter, on
         </h3>
         {hasComparison ? (
           <ul className={styles.counters}>
-            {DELTA_COUNTERS.map((c) => {
+            {counters.map((c) => {
               const value = summary.delta[c.code];
               return (
                 <li key={c.code}>
@@ -41,15 +50,24 @@ export function IssuesBreakdown({ summary, issuesTotal, issuesHigherIsBetter, on
                     className={`${styles.counter} ${c.tone}`}
                     onClick={() => onDeltaStatusClick(c.code)}
                     disabled={value === null}
-                    aria-label={`${c.title}: ${value ?? NO_COMPARISON_TEXT}. Показать в списке проблем`}
                   >
                     <span className={styles.counterTitle}>
                       {c.icon} {c.title}
                     </span>
-                    <span className={styles.counterValue}>{value === null ? '—' : formatNumber(value)}</span>
+                    <span className={styles.counterValue}>
+                      {value === null ? (
+                        <>
+                          <span aria-hidden>—</span>
+                          <VisuallyHidden>{NO_COMPARISON_TEXT}</VisuallyHidden>
+                        </>
+                      ) : (
+                        formatNumber(value)
+                      )}
+                    </span>
                     <span className={styles.counterHint}>
                       {c.hint} <RightOutlined aria-hidden />
                     </span>
+                    <VisuallyHidden>. Показать в списке проблем</VisuallyHidden>
                   </button>
                 </li>
               );
@@ -72,6 +90,12 @@ export function IssuesBreakdown({ summary, issuesTotal, issuesHigherIsBetter, on
             <span className={styles.total}>
               всего <strong>{formatMetricValue(issuesTotal.value, issuesTotal.unit)}</strong>{' '}
               <DeltaIndicator delta={issuesTotal.delta} trend={issuesTotal.trend} size="small" />
+              {issuesTotal.previous !== null && (
+                <span className={styles.previous}>
+                  {' '}
+                  было {formatMetricValue(issuesTotal.previous, issuesTotal.unit)}
+                </span>
+              )}
             </span>
           )}
         </div>
@@ -82,11 +106,11 @@ export function IssuesBreakdown({ summary, issuesTotal, issuesHigherIsBetter, on
                 type="button"
                 className={styles.severityRow}
                 onClick={() => onSeverityClick(row.code)}
-                aria-label={`${row.title}: ${row.current}. Показать в списке проблем`}
               >
                 <SeverityTag severity={row.code} />
                 <span className={styles.severityValue}>{formatNumber(row.current)}</span>
                 <DeltaIndicator delta={row.delta} trend={trendFromDirection(row.delta, issuesHigherIsBetter)} size="small" />
+                <VisuallyHidden>. Показать в списке проблем</VisuallyHidden>
               </button>
             </li>
           ))}

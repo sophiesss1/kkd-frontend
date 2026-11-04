@@ -95,5 +95,10 @@ export async function apiGet<T>(path: string, params: Record<string, QueryValue>
       error?.message ?? `Сервер вернул ошибку ${response.status}`,
     );
   }
+  // успешный ответ не в JSON — так бывает, если адрес API указывает не на API (например, на сам фронтенд):
+  // понятная ошибка вместо «Cannot read properties of null» дальше в коде
+  if (body === null) {
+    throw new ApiError(response.status, 'INVALID_RESPONSE', 'Сервер ответил не в формате API. Проверьте адрес API.');
+  }
   return body as T;
 }

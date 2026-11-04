@@ -1,13 +1,13 @@
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { useState } from 'react';
-import type { Rule, RuleCountRow, SeverityCode } from '../../../api/types';
+import type { Rule, RuleCountRow } from '../../../api/types';
 import { DeltaIndicator, trendFromDirection } from '../../../shared/DeltaIndicator';
+import { useDictionaries } from '../../../shared/dictionaries';
 import { formatNumber } from '../../../shared/format';
 import { SeverityTag } from '../../../shared/tags';
 import styles from './PriorityRules.module.css';
 
-const SEVERITY_RANK: Record<SeverityCode, number> = { critical: 0, major: 1, minor: 2 };
 const OBJECT_LABEL = { goal: 'цель', key_result: 'КР' } as const;
 const TOP_COUNT = 5;
 
@@ -22,10 +22,12 @@ interface Props {
 /** «Что исправлять в первую очередь»: правила с нарушениями, сначала самые важные, затем самые массовые. */
 export function PriorityRules({ rows, rules, issuesHigherIsBetter, onRuleClick }: Props) {
   const [expanded, setExpanded] = useState(false);
+  // порядок важности — из справочника /api/meta (order), а не из копии в коде
+  const { severityOrder } = useDictionaries();
   const ruleByCode = new Map(rules.map((r) => [r.code, r]));
   const active = rows
     .filter((r) => r.current > 0)
-    .sort((a, b) => SEVERITY_RANK[a.severity] - SEVERITY_RANK[b.severity] || b.current - a.current);
+    .sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity] || b.current - a.current);
   const visible = expanded ? active : active.slice(0, TOP_COUNT);
 
   return (
@@ -42,12 +44,11 @@ export function PriorityRules({ rows, rules, issuesHigherIsBetter, onRuleClick }
           {visible.map((row) => (
             <li key={row.code} className={styles.row}>
               <SeverityTag severity={row.severity} />
-              <div className={styles.rule}>
-                <span className={styles.ruleTitle}>{row.title}</span>
-                <span className={styles.ruleHint}>
-                  {OBJECT_LABEL[row.object_type]} · {ruleByCode.get(row.code)?.recommendation}
-                </span>
-              </div>
+              <span className={styles.ruleTitle}>{row.title}</span>
+              {/* рекомендация — второй строкой под названием на всю ширину, чтобы не обрезалась и не вытягивала строку */}
+              <span className={styles.ruleHint}>
+                {OBJECT_LABEL[row.object_type]} · {ruleByCode.get(row.code)?.recommendation}
+              </span>
               <span className={styles.count}>{formatNumber(row.current)}</span>
               <span className={styles.delta}>
                 <DeltaIndicator delta={row.delta} trend={trendFromDirection(row.delta, issuesHigherIsBetter)} size="small" />

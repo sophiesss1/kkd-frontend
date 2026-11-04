@@ -4,13 +4,14 @@
 
 .caption {
   margin-bottom: 8px;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
   color: var(--ant-color-text-secondary);
 }
 
+/* высота готового блока: подпись 20 + 8 + столбец 64 + 4 + дата 20 — без скачка, когда данные придут */
 .skeleton {
-  height: 92px !important;
+  height: 116px !important;
 }
 
 .bars {
@@ -68,18 +69,18 @@
 .gap {
   align-self: center;
   color: var(--ant-color-error-text);
-  font-weight: 600;
+  font-weight: var(--ant-font-weight-strong);
 }
 
 .date {
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
   text-align: center;
-  color: var(--ant-color-text-tertiary);
+  color: var(--ant-color-text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
 .dateSelected {
   color: var(--ant-color-text);
-  font-weight: 600;
+  font-weight: var(--ant-font-weight-strong);
 }

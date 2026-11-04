@@ -3,12 +3,12 @@ import { Descriptions, Modal, Skeleton } from 'antd';
 import type { ReactNode } from 'react';
 import { useIssue } from '../../../api/queries';
 import type { IssueHistoryPoint } from '../../../api/types';
+import { useDictionaries } from '../../../shared/dictionaries';
 import { formatDate, pluralize } from '../../../shared/format';
+import { ModalTitle } from '../../../shared/ModalTitle';
 import { QueryError } from '../../../shared/QueryError';
 import { DeltaStatusTag, SeverityTag } from '../../../shared/tags';
 import styles from './IssueModal.module.css';
-
-const GOAL_LEVEL_LABEL = { block: 'цель блока', hq: 'цель департамента', unit: 'цель подразделения', employee: 'цель сотрудника' };
 
 function formatValue(value: string | number | null): ReactNode {
   if (value === null || value === '') return <span className={styles.missing}>не заполнено</span>;
@@ -32,6 +32,7 @@ interface Props {
 
 export function IssueModal({ issueId, runId, hasComparison, onClose }: Props) {
   const { data: issue, error, isPending, refetch } = useIssue(issueId, runId);
+  const { goalLevelTitle } = useDictionaries();
 
   return (
     <Modal
@@ -40,7 +41,8 @@ export function IssueModal({ issueId, runId, hasComparison, onClose }: Props) {
       footer={null}
       width={760}
       destroyOnHidden
-      title={issue ? issue.rule_title : 'Карточка проблемы'}
+      title={<ModalTitle>{issue ? issue.rule_title : 'Карточка проблемы'}</ModalTitle>}
+      closable={{ 'aria-label': 'Закрыть' }}
     >
       {error ? (
         <QueryError error={error} onRetry={() => refetch()} title="Не удалось открыть карточку проблемы" />
@@ -72,13 +74,20 @@ export function IssueModal({ issueId, runId, hasComparison, onClose }: Props) {
             <span>{issue.recommendation}</span>
           </div>
 
-          <Descriptions column={1} size="small" styles={{ label: { width: 200 } }}>
+          {/* подписи — colorTextSecondary («вторичный текст, подписи» в палитре кита); antd по умолчанию берёт третичный */}
+          <Descriptions
+            column={1}
+            size="small"
+            styles={{ label: { width: 200, color: 'var(--ant-color-text-secondary)' } }}
+          >
             <Descriptions.Item label="Цель">
-              {issue.goal_title} ({issue.goal_id}, {GOAL_LEVEL_LABEL[issue.goal_level]})
+              {issue.goal_title} ({issue.goal_id})
             </Descriptions.Item>
+            <Descriptions.Item label="Уровень цели">{goalLevelTitle[issue.goal_level]}</Descriptions.Item>
             {issue.kr_id && (
               <Descriptions.Item label="Ключевой результат">
-                {issue.kr_title} ({issue.kr_id})
+                {/* без названия — только идентификатор, как в таблице, а не « (KR-…)» */}
+                {issue.kr_title ? `${issue.kr_title} (${issue.kr_id})` : issue.kr_id}
               </Descriptions.Item>
             )}
             <Descriptions.Item label="Подразделение">{issue.unit_name}</Descriptions.Item>
@@ -88,7 +97,9 @@ export function IssueModal({ issueId, runId, hasComparison, onClose }: Props) {
             {issue.first_detected_run_id && issue.first_detected_at && (
               <Descriptions.Item label="Впервые обнаружена">
                 {issue.first_detected_run_id} от {formatDate(issue.first_detected_at)}
-                {issue.runs_in_row &&
+                {/* сравнение с нулём явное: через && число 0 само вывелось бы на экран */}
+                {issue.runs_in_row !== null &&
+                  issue.runs_in_row > 0 &&
                   ` · ${issue.runs_in_row} ${pluralize(issue.runs_in_row, ['прогон', 'прогона', 'прогонов'])} подряд`}
               </Descriptions.Item>
             )}

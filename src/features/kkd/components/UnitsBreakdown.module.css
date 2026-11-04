@@ -4,21 +4,21 @@
   padding: 24px;
   background: var(--ant-color-bg-container);
   border: 1px solid var(--ant-color-border-secondary);
-  border-radius: 12px;
+  border-radius: var(--ant-border-radius-lg);
   min-width: 0;
 }
 
 .heading {
   margin: 0;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 600;
+  font-size: var(--ant-font-size-heading-4);
+  line-height: var(--ant-line-height-heading-4);
+  font-weight: var(--ant-font-weight-strong);
 }
 
 .hint {
   margin: 4px 0 12px;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
   color: var(--ant-color-text-secondary);
 }
 
@@ -44,7 +44,7 @@
   margin: 0 -8px;
   box-sizing: content-box;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--ant-border-radius-lg);
   background: none;
   font: inherit;
   color: inherit;
@@ -67,25 +67,24 @@
   min-width: 0;
 }
 
+/* цвет ссылок кита (colorLink), как у таких же названий в окне «Все подразделения» */
 .unitName {
   font-weight: 500;
-  color: var(--ant-color-primary);
+  color: var(--ant-color-link);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* переносится, а не обрезается: на 1280 px иначе пропадает число критичных */
 .rowMeta {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
   color: var(--ant-color-text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .rowValue {
-  font-weight: 600;
+  font-weight: var(--ant-font-weight-strong);
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
@@ -104,9 +103,9 @@
 
 .more {
   margin: 4px 0 0;
-  font-size: 12px;
-  line-height: 20px;
-  color: var(--ant-color-text-tertiary);
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
+  color: var(--ant-color-text-secondary);
 }
 
 .footer {
@@ -128,10 +127,8 @@
   margin-left: auto;
 }
 
-.treeLink {
-  font-weight: 500;
-}
-
+/* Фон и значок — роль Warning кита. Текст основным цветом: текстовый жёлтый #ca820e на #fffbe6 даёт 3:1,
+   а это главная оговорка к итогу, её нужно прочитать. */
 .caveat {
   display: flex;
   align-items: flex-start;
@@ -139,11 +136,12 @@
   width: fit-content;
   margin: 0;
   padding: 4px 12px;
-  border-radius: 8px;
+  border-radius: var(--ant-border-radius-lg);
   background: var(--ant-color-warning-bg);
-  color: var(--ant-color-warning-text);
+  color: var(--ant-color-text);
 }
 
 .caveatIcon {
-  margin-top: 5px;
+  margin-top: 4px;
+  color: var(--ant-color-warning-text);
 }

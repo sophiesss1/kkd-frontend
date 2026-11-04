@@ -1,4 +1,5 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 import { apiGet } from './client';
 import type { IssueDetail, IssueFilters, IssuesPage, Meta, Page, Run, Summary, TrendResponse, UnitsMetrics } from './types';
 
@@ -51,8 +52,23 @@ export function useUnitsMetrics(runId: string | undefined, enabled = true) {
     queryKey: queryKeys.units(runId ?? ''),
     queryFn: ({ signal }) => apiGet<UnitsMetrics>('/api/kkd/units', { run_id: runId }, signal),
     enabled: Boolean(runId) && enabled,
+    // Разрез успешного прогона не меняется. Без этого возврат из подразделения без дочерних (где запрос выключен)
+    // через минуту снова запросил бы его: включение запроса с устаревшими данными — повод для запроса.
+    staleTime: Infinity,
     placeholderData: keepPreviousData,
   });
+}
+
+/**
+ * «Повторить» у любого блока перезапрашивает всё, что сейчас упало на странице, а не только свой запрос:
+ * при сбое API падают сразу несколько блоков, и одной кнопки должно хватить.
+ */
+export function useRetryFailed() {
+  const queryClient = useQueryClient();
+  return useCallback(
+    () => queryClient.refetchQueries({ type: 'active', predicate: (query) => query.state.status === 'error' }),
+    [queryClient],
+  );
 }
 
 export function useIssues(

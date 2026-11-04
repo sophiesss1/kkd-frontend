@@ -22,9 +22,9 @@
 
 .title {
   margin: 0;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 600;
+  font-size: var(--ant-font-size-heading-4);
+  line-height: var(--ant-line-height-heading-4);
+  font-weight: var(--ant-font-weight-strong);
 }
 
 .subtitle {
@@ -43,9 +43,9 @@
 
 .sectionTitle {
   margin: 0 0 12px;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 600;
+  font-size: var(--ant-font-size-heading-4);
+  line-height: var(--ant-line-height-heading-4);
+  font-weight: var(--ant-font-weight-strong);
 }
 
 .fixSection {
@@ -75,7 +75,7 @@
 .skeletonBlock :global(.ant-skeleton-node) {
   width: 100% !important;
   height: 280px !important;
-  border-radius: 12px;
+  border-radius: var(--ant-border-radius-lg);
 }
 
 .stale {
@@ -88,6 +88,7 @@
   pointer-events: none;
 }
 
+/* плашка-пилюля: радиус 20px — раздел 4 кита («пилюли и чипы»), в теме для него токена нет */
 .staleBadge {
   position: sticky;
   top: 16px;
@@ -107,5 +108,5 @@
   padding: 40px 24px;
   background: var(--ant-color-bg-container);
   border: 1px solid var(--ant-color-border-secondary);
-  border-radius: 12px;
+  border-radius: var(--ant-border-radius-lg);
 }

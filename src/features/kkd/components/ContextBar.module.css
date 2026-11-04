@@ -9,8 +9,8 @@
 }
 
 .label {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
   color: var(--ant-color-text-secondary);
 }
 
@@ -26,4 +26,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+.runDate {
+  color: var(--ant-color-text-secondary);
 }

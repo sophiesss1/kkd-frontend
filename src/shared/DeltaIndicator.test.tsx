@@ -30,9 +30,11 @@ describe('DeltaIndicator', () => {
     expect(screen.queryByText(/лучше|хуже/)).not.toBeInTheDocument();
   });
 
-  it('передаёт смысл текстом для скринридера', () => {
-    render(<DeltaIndicator delta={0.8} trend="better" unit="%" />);
-    expect(screen.getByLabelText('Изменение +0,8 п.п., лучше')).toBeInTheDocument();
+  it('смысл передаёт видимым текстом, а не aria-label на span без роли', () => {
+    const { container } = render(<DeltaIndicator delta={-1} trend="better" deltaPct={-2.1} />);
+    const root = container.firstElementChild!;
+    expect(root).not.toHaveAttribute('aria-label');
+    expect(root).toHaveTextContent(/^−1\s*\(−2,1\s?%\)\s*лучше$/);
   });
 });
 

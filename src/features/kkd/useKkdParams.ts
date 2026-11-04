@@ -20,10 +20,17 @@ export interface KkdParams {
   issueId: string | null;
 }
 
-const SORTS: IssueSort[] = ['severity', 'age', 'unit', 'rule'];
+/** Размеры страницы таблицы; другой размер из ссылки (например, больше лимита API в 200) заменяется на размер по умолчанию. */
+export const PAGE_SIZES = [10, 20, 50, 100];
 
-function list<T extends string>(search: URLSearchParams, key: string): T[] {
-  return (search.get(key) ?? '').split(',').filter(Boolean) as T[];
+const SORTS: IssueSort[] = ['severity', 'age', 'unit', 'rule'];
+// коды из контракта API: неизвестный код из ссылки API отверг бы ошибкой 422, поэтому он отбрасывается
+const SEVERITIES: SeverityCode[] = ['critical', 'major', 'minor'];
+const DELTA_STATUSES: DeltaStatus[] = ['new', 'persisting', 'resolved'];
+
+function list<T extends string>(search: URLSearchParams, key: string, allowed?: readonly T[]): T[] {
+  const values = (search.get(key) ?? '').split(',').filter(Boolean) as T[];
+  return allowed ? values.filter((value) => allowed.includes(value)) : values;
 }
 
 function positive(raw: string | null, fallback: number) {
@@ -39,13 +46,13 @@ export function parseParams(searchString: string): KkdParams {
     runId: search.get('run') || undefined,
     filters: {
       rule_code: list(search, 'rule'),
-      severity: list<SeverityCode>(search, 'severity'),
-      delta_status: list<DeltaStatus>(search, 'status'),
+      severity: list(search, 'severity', SEVERITIES),
+      delta_status: list(search, 'status', DELTA_STATUSES),
       q: search.get('q') ?? '',
       sort: sort && SORTS.includes(sort) ? sort : 'severity',
     },
     page: positive(search.get('page'), 1),
-    pageSize: positive(search.get('size'), DEFAULT_PAGE_SIZE),
+    pageSize: PAGE_SIZES.includes(Number(search.get('size'))) ? Number(search.get('size')) : DEFAULT_PAGE_SIZE,
     issueId: search.get('issue'),
   };
 }
@@ -86,8 +93,9 @@ export function useKkdParams() {
   const params = useMemo(() => parseParams(searchString), [searchString]);
 
   const update = useCallback((patch: Partial<KkdParams>, { replace = false } = {}) => {
-    const next = { ...parseParams(window.location.search), ...patch };
-    const url = serialize(next);
+    const url = serialize({ ...parseParams(window.location.search), ...patch });
+    // повторный клик по уже выбранному (счётчик, прогон, столбец динамики) не добавляет пустую запись в историю
+    if (url === (window.location.search || window.location.pathname)) return;
     if (replace) window.history.replaceState(null, '', url);
     else window.history.pushState(null, '', url);
     listeners.forEach((l) => l());
@@ -101,7 +109,7 @@ export function useKkdParams() {
       setFilters: (filters: Partial<IssueFilters>, opts?: { replace?: boolean }) =>
         update({ filters: { ...parseParams(window.location.search).filters, ...filters }, page: 1 }, opts),
       resetFilters: () => update({ filters: EMPTY_FILTERS, page: 1 }),
-      setPage: (page: number, pageSize: number) => update({ page, pageSize }),
+      setPage: (page: number, pageSize: number, opts?: { replace?: boolean }) => update({ page, pageSize }, opts),
       openIssue: (issueId: string) => update({ issueId }),
       closeIssue: () => update({ issueId: null }),
     }),

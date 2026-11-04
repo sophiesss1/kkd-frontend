@@ -8,18 +8,18 @@
 }
 
 .default {
-  font-size: 14px;
-  line-height: 22px;
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
 }
 
 .small {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
 }
 
 .icon {
   align-self: center;
-  font-size: 12px;
+  font-size: var(--ant-font-size-sm);
 }
 
 .label {
@@ -31,6 +31,7 @@
   color: var(--ant-color-text-secondary);
 }
 
+/* текстовые тона ролей Success и Error из палитры кита (раздел 2): основные тона на светлом фоне бледнее */
 .better {
   color: var(--ant-color-success-text);
 }
@@ -43,6 +44,7 @@
   color: var(--ant-color-text-secondary);
 }
 
+/* «нет данных для сравнения» — третичным цветом, как велит раздел 5 кита */
 .none {
   color: var(--ant-color-text-tertiary);
   font-weight: 400;

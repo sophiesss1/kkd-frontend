@@ -1,4 +1,4 @@
-import { ReloadOutlined } from '@ant-design/icons';
+import { CloseCircleFilled, ReloadOutlined } from '@ant-design/icons';
 import { Alert, Button } from 'antd';
 import { ApiError } from '../api/client';
 
@@ -16,12 +16,14 @@ export function QueryError({ error, onRetry, title = 'Не удалось заг
     <Alert
       type="error"
       showIcon
+      // значок antd по умолчанию озвучивался бы как «close-circle» перед текстом ошибки
+      icon={<CloseCircleFilled aria-hidden />}
       role="alert"
       message={title}
       description={message}
       action={
         retryable && onRetry ? (
-          <Button icon={<ReloadOutlined />} onClick={onRetry}>
+          <Button icon={<ReloadOutlined aria-hidden />} onClick={onRetry}>
             Повторить
           </Button>
         ) : undefined

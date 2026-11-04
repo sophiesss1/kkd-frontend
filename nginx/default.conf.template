@@ -2,15 +2,36 @@ server {
     listen 80;
     root /usr/share/nginx/html;
 
+    # Бандл с antd весит около 1 МБ, ответы API — JSON и CSV: всё это текст и хорошо сжимается
+    gzip on;
+    # Vary: Accept-Encoding — общий кэш (прокси) не отдаст сжатый ответ клиенту без gzip
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied any;
+    gzip_types text/css application/javascript application/json text/csv image/svg+xml;
+
     # Фронтенд обращается к API по относительному пути /api — адрес бэкенда задаётся переменной API_URL
+    # (завершающий слэш снимает nginx/05-trim-api-url.envsh: с ним proxy_pass отрезал бы префикс /api/)
     location /api/ {
         proxy_pass ${API_URL};
-        proxy_set_header Host $host;
+        # Host и SNI — адреса API, а не фронтенда: иначе внешний API за виртуальным хостом или по https
+        # не ответит. Так же делает прокси Vite в dev (changeOrigin).
+        proxy_set_header Host $proxy_host;
+        proxy_ssl_server_name on;
+        # Остановленный API не отвечает на соединение: без этого ответ 502 приходил через ~40 с на каждую попытку,
+        # и страница минуту-другую показывала загрузку вместо ошибки с кнопкой «Повторить»
+        proxy_connect_timeout 3s;
     }
 
     location /assets/ {
         expires 1y;
         add_header Cache-Control "public, immutable";
+    }
+
+    # index.html каждый раз сверяется с сервером: иначе после пересборки браузер берёт старый из кэша
+    # со ссылками на прежние ассеты и показывает прошлую версию страницы
+    location = /index.html {
+        add_header Cache-Control "no-cache";
     }
 
     location / {

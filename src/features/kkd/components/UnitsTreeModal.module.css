@@ -1,0 +1,14 @@
+.hint {
+  margin: 4px 0 12px;
+  font-size: var(--ant-font-size-sm);
+  line-height: var(--ant-line-height-sm);
+  color: var(--ant-color-text-secondary);
+}
+
+.unitLink {
+  font-weight: 500;
+}
+
+.muted {
+  color: var(--ant-color-text-secondary);
+}

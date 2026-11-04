@@ -21,6 +21,14 @@ describe('parseParams', () => {
     expect(p.filters.sort).toBe('severity');
     expect(p.page).toBe(1);
   });
+
+  it('отбрасывает коды и размер страницы, которые API отверг бы ошибкой 422', () => {
+    const p = parseParams('?severity=critical,foo&status=bar,new&size=500');
+    expect(p.filters.severity).toEqual(['critical']);
+    expect(p.filters.delta_status).toEqual(['new']);
+    expect(p.pageSize).toBe(20);
+    expect(parseParams('?size=50').pageSize).toBe(50);
+  });
 });
 
 describe('useKkdParams', () => {
@@ -47,5 +55,18 @@ describe('useKkdParams', () => {
 
     expect(result.current.params.page).toBe(1);
     expect(result.current.params.filters.rule_code).toEqual(['GOAL_NO_KR']);
+  });
+
+  it('повторный выбор того же значения не добавляет запись в историю', () => {
+    const { result } = renderHook(() => useKkdParams());
+    act(() => result.current.setFilters({ delta_status: ['new'] }));
+    const length = window.history.length;
+
+    act(() => result.current.setFilters({ delta_status: ['new'] }));
+    act(() => result.current.setRun('RUN-008'));
+    act(() => result.current.setRun('RUN-008'));
+
+    expect(window.history.length).toBe(length + 1);
+    expect(window.location.search).toBe('?run=RUN-008&status=new');
   });
 });

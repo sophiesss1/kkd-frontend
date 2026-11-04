@@ -2,8 +2,10 @@ import type { ThemeConfig } from 'antd';
 
 /**
  * Тема корпоративного UI-кита (UI-KIT.md, раздел 1) — скопирована без изменений.
- * Ниже блока из кита добавлены только семантические фоны/тексты из раздела 2 (палитра),
- * чтобы компоненты брали их из темы, а не хардкодили hex.
+ * Добавлены только значения из самого кита: семантические фоны/тексты из раздела 2 (палитра), чтобы компоненты
+ * брали их из темы, а не хардкодили hex; у Modal — радиус и межстрочный заголовка из разделов 3–4;
+ * у Tooltip — те же цвета кита в токенах, которые antd 5 действительно читает; для подписей и подсказок в полях —
+ * вторичный текст кита вместо бледных цветов antd по умолчанию.
  */
 export const theme: ThemeConfig = {
   cssVar: { key: 'kkd' },
@@ -57,6 +59,14 @@ export const theme: ThemeConfig = {
     colorErrorText: '#b81301',
     colorInfoBg: '#d5edfa',
     colorInfoText: '#036c8f',
+
+    // --- тексты, которые antd по умолчанию выводит бледнее палитры кита ---
+    // Подписи и пояснения (причина ошибки прогона, пустое состояние, хлебные крошки): antd берёт colorTextTertiary
+    // (2,7:1), а в разделе 2 кита для подписей — вторичный текст.
+    colorTextDescription: '#76726C',
+    // Подсказки в пустых полях («Все правила», «Любая важность»): antd по умолчанию rgba(0, 0, 0, 0.25), 1,8:1,
+    // кит такого цвета не задаёт. По подсказке пользователь видит, какой фильтр сейчас действует.
+    colorTextPlaceholder: '#76726C',
   },
   components: {
     Button: {
@@ -73,10 +83,12 @@ export const theme: ThemeConfig = {
     },
     Table: { headerBg: '#fefcfa' },
     Select: { optionSelectedBg: '#ddeafd', optionSelectedColor: '#1b4de3' },
-    // радиус модалки 28px — раздел 4 кита
-    Modal: { titleFontSize: 20, colorBgMask: 'rgba(50, 44, 38, 0.07)', borderRadiusLG: 28 },
+    // радиус модалки 28px — раздел 4 кита, заголовок 20/600/28 — раздел 3 (без titleLineHeight antd даёт 30px)
+    Modal: { titleFontSize: 20, titleLineHeight: 1.4, colorBgMask: 'rgba(50, 44, 38, 0.07)', borderRadiusLG: 28 },
     Tag: { defaultBg: '#f7f3f0' },
-    Tooltip: { colorText: '#e4e6e2', colorBgBase: '#90928d' },
+    // строка кита оставлена как есть; antd 5 красит подсказку из colorBgSpotlight и colorTextLightSolid,
+    // поэтому те же цвета кита продублированы в этих токенах — иначе подсказки остались бы чёрными
+    Tooltip: { colorText: '#e4e6e2', colorBgBase: '#90928d', colorBgSpotlight: '#90928d', colorTextLightSolid: '#e4e6e2' },
     Divider: { colorSplit: '#eae4de' },
   },
 };

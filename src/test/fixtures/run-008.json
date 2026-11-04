@@ -1,0 +1,1881 @@
+{
+ "_source": "Ответы mock API (gitverse.ru/kkk_s/moc_api_kkd, коммит e6a7431), снятые 02.11.2026 (сводка и тренд HQ-CIB — 03.11.2026): последний прогон RUN-008",
+ "meta": {
+  "units": [
+   {
+    "id": "B2B",
+    "name": "Корпоративный блок",
+    "level": "block",
+    "parent_id": null,
+    "depth": 0
+   },
+   {
+    "id": "HQ-CIB",
+    "name": "Департамент корпоративного бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "depth": 1
+   },
+   {
+    "id": "CIB-KEY",
+    "name": "Управление по работе с ключевыми клиентами",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "depth": 2
+   },
+   {
+    "id": "CIB-REG",
+    "name": "Управление региональных продаж",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "depth": 2
+   },
+   {
+    "id": "CIB-TRADE",
+    "name": "Отдел торгового финансирования",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "depth": 2
+   },
+   {
+    "id": "HQ-SME",
+    "name": "Департамент малого и среднего бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "depth": 1
+   },
+   {
+    "id": "SME-ACQ",
+    "name": "Управление привлечения клиентов",
+    "level": "unit",
+    "parent_id": "HQ-SME",
+    "depth": 2
+   },
+   {
+    "id": "SME-SRV",
+    "name": "Управление сервиса и удержания",
+    "level": "unit",
+    "parent_id": "HQ-SME",
+    "depth": 2
+   },
+   {
+    "id": "SME-DIG",
+    "name": "Отдел цифровых каналов",
+    "level": "unit",
+    "parent_id": "HQ-SME",
+    "depth": 2
+   },
+   {
+    "id": "HQ-TX",
+    "name": "Департамент транзакционного бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "depth": 1
+   },
+   {
+    "id": "TX-ACQ",
+    "name": "Управление эквайринга",
+    "level": "unit",
+    "parent_id": "HQ-TX",
+    "depth": 2
+   },
+   {
+    "id": "TX-SAL",
+    "name": "Управление зарплатных проектов",
+    "level": "unit",
+    "parent_id": "HQ-TX",
+    "depth": 2
+   },
+   {
+    "id": "TX-NEW",
+    "name": "Отдел платёжных сервисов",
+    "level": "unit",
+    "parent_id": "HQ-TX",
+    "depth": 2
+   }
+  ],
+  "rules": [
+   {
+    "code": "GOAL_NO_OWNER",
+    "object_type": "goal",
+    "severity": "critical",
+    "title": "Цель без ответственного",
+    "description": "У активной цели не указан ответственный сотрудник.",
+    "recommendation": "Назначить ответственного за цель в модуле «Цели»."
+   },
+   {
+    "code": "GOAL_NO_KR",
+    "object_type": "goal",
+    "severity": "critical",
+    "title": "Цель без ключевых результатов",
+    "description": "У активной цели нет ни одного ключевого результата.",
+    "recommendation": "Добавить 1–5 измеримых ключевых результатов."
+   },
+   {
+    "code": "KR_WEIGHTS_SUM",
+    "object_type": "goal",
+    "severity": "major",
+    "title": "Сумма весов КР не равна 100%",
+    "description": "Сумма весов ключевых результатов цели отличается от 100%.",
+    "recommendation": "Перераспределить веса КР так, чтобы сумма была 100%."
+   },
+   {
+    "code": "CASCADE_NO_PARENT",
+    "object_type": "goal",
+    "severity": "major",
+    "title": "Цель не связана с вышестоящей",
+    "description": "Цель департамента, подразделения или сотрудника не привязана к цели вышестоящего уровня.",
+    "recommendation": "Указать родительскую цель вышестоящего уровня."
+   },
+   {
+    "code": "CASCADE_WRONG_LEVEL",
+    "object_type": "goal",
+    "severity": "major",
+    "title": "Нарушена структура каскада",
+    "description": "Родительская цель не выше по уровню или относится к подразделению из другой ветки оргструктуры.",
+    "recommendation": "Перепривязать цель к цели своего вышестоящего подразделения."
+   },
+   {
+    "code": "CASCADE_PARENT_INACTIVE",
+    "object_type": "goal",
+    "severity": "minor",
+    "title": "Родительская цель закрыта или отменена",
+    "description": "Активная цель каскадирована из цели, которая уже закрыта или отменена.",
+    "recommendation": "Перепривязать цель к актуальной цели или закрыть её."
+   },
+   {
+    "code": "GOAL_DEADLINE_OUT_OF_PERIOD",
+    "object_type": "goal",
+    "severity": "minor",
+    "title": "Срок цели вне периода целеполагания",
+    "description": "Срок достижения цели выходит за границы периода целеполагания.",
+    "recommendation": "Скорректировать срок в пределах периода."
+   },
+   {
+    "code": "GOAL_DUPLICATE",
+    "object_type": "goal",
+    "severity": "minor",
+    "title": "Дубль цели",
+    "description": "У сотрудника есть другая активная цель с тем же названием.",
+    "recommendation": "Удалить дубль или объединить цели."
+   },
+   {
+    "code": "KR_NO_TARGET",
+    "object_type": "key_result",
+    "severity": "major",
+    "title": "КР без целевого значения",
+    "description": "У ключевого результата не заполнено целевое значение.",
+    "recommendation": "Заполнить целевое значение КР."
+   },
+   {
+    "code": "KR_NO_UNIT",
+    "object_type": "key_result",
+    "severity": "major",
+    "title": "КР без единицы измерения",
+    "description": "У ключевого результата не указана единица измерения.",
+    "recommendation": "Указать единицу измерения (%, шт., млн ₽ и т. п.)."
+   },
+   {
+    "code": "KR_STALE_PROGRESS",
+    "object_type": "key_result",
+    "severity": "minor",
+    "title": "Прогресс КР давно не обновлялся",
+    "description": "Фактическое значение КР не обновлялось более 45 дней.",
+    "recommendation": "Обновить фактическое значение КР."
+   },
+   {
+    "code": "KR_FACT_OUTLIER",
+    "object_type": "key_result",
+    "severity": "minor",
+    "title": "Подозрительное фактическое значение",
+    "description": "Факт КР превышает целевое значение более чем в 3 раза — возможна ошибка ввода.",
+    "recommendation": "Проверить фактическое значение и единицу измерения."
+   }
+  ],
+  "severities": [
+   {
+    "code": "critical",
+    "title": "Критичная",
+    "order": 0
+   },
+   {
+    "code": "major",
+    "title": "Существенная",
+    "order": 1
+   },
+   {
+    "code": "minor",
+    "title": "Незначительная",
+    "order": 2
+   }
+  ],
+  "goal_levels": [
+   {
+    "code": "block",
+    "order": 0,
+    "title": "Цель блока"
+   },
+   {
+    "code": "hq",
+    "order": 1,
+    "title": "Цель департамента"
+   },
+   {
+    "code": "unit",
+    "order": 2,
+    "title": "Цель подразделения"
+   },
+   {
+    "code": "employee",
+    "order": 3,
+    "title": "Цель сотрудника"
+   }
+  ],
+  "metrics": [
+   {
+    "key": "clean_goals_share",
+    "title": "Доля корректных целей",
+    "unit": "%",
+    "higher_is_better": true,
+    "formula": "активные цели без проблем ÷ все активные цели × 100"
+   },
+   {
+    "key": "goals_active",
+    "title": "Активные цели",
+    "unit": "шт.",
+    "higher_is_better": null,
+    "formula": "количество целей в статусе active"
+   },
+   {
+    "key": "key_results",
+    "title": "Ключевые результаты",
+    "unit": "шт.",
+    "higher_is_better": null,
+    "formula": "количество КР активных целей"
+   },
+   {
+    "key": "goals_with_issues",
+    "title": "Цели с проблемами",
+    "unit": "шт.",
+    "higher_is_better": false,
+    "formula": "активные цели, у которых есть хотя бы одна проблема (по цели или её КР)"
+   },
+   {
+    "key": "issues_total",
+    "title": "Найдено проблем",
+    "unit": "шт.",
+    "higher_is_better": false,
+    "formula": "количество нарушений правил ККД"
+   },
+   {
+    "key": "critical_issues",
+    "title": "Критичные проблемы",
+    "unit": "шт.",
+    "higher_is_better": false,
+    "formula": "количество нарушений с severity = critical"
+   },
+   {
+    "key": "cascade_coverage",
+    "title": "Покрытие каскадом",
+    "unit": "%",
+    "higher_is_better": true,
+    "formula": "цели (кроме уровня блока) с корректной связью с вышестоящей ÷ все такие цели × 100"
+   },
+   {
+    "key": "kr_completeness",
+    "title": "Заполненность КР",
+    "unit": "%",
+    "higher_is_better": true,
+    "formula": "КР с целевым значением и единицей измерения ÷ все КР × 100"
+   },
+   {
+    "key": "avg_kr_per_goal",
+    "title": "КР на цель (среднее)",
+    "unit": "шт.",
+    "higher_is_better": null,
+    "formula": "КР активных целей ÷ активные цели"
+   }
+  ],
+  "delta_statuses": [
+   {
+    "code": "new",
+    "title": "Новая"
+   },
+   {
+    "code": "persisting",
+    "title": "Сохраняется"
+   },
+   {
+    "code": "resolved",
+    "title": "Исправлена"
+   }
+  ]
+ },
+ "runs": {
+  "items": [
+   {
+    "id": "RUN-008",
+    "number": 8,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-11-02",
+    "started_at": "2026-11-02T06:00:00+03:00",
+    "finished_at": "2026-11-02T06:05:00+03:00",
+    "compared_to_run_id": "RUN-007",
+    "error": null,
+    "totals": {
+     "goals_active": 190,
+     "key_results": 430,
+     "issues_total": 61,
+     "critical": 4,
+     "major": 31,
+     "minor": 26,
+     "clean_goals_share": 75.8
+    }
+   },
+   {
+    "id": "RUN-007",
+    "number": 7,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-26",
+    "started_at": "2026-10-26T06:00:00+03:00",
+    "finished_at": "2026-10-26T06:12:00+03:00",
+    "compared_to_run_id": "RUN-005",
+    "error": null,
+    "totals": {
+     "goals_active": 188,
+     "key_results": 424,
+     "issues_total": 61,
+     "critical": 4,
+     "major": 28,
+     "minor": 29,
+     "clean_goals_share": 75
+    }
+   },
+   {
+    "id": "RUN-006",
+    "number": 6,
+    "status": "failed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-19",
+    "started_at": "2026-10-19T06:00:00+03:00",
+    "finished_at": "2026-10-19T06:03:00+03:00",
+    "compared_to_run_id": "RUN-005",
+    "error": "Таймаут выгрузки данных из системы управления целями. Результаты не сохранены.",
+    "totals": null
+   },
+   {
+    "id": "RUN-005",
+    "number": 5,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-12",
+    "started_at": "2026-10-12T06:00:00+03:00",
+    "finished_at": "2026-10-12T06:04:00+03:00",
+    "compared_to_run_id": "RUN-004",
+    "error": null,
+    "totals": {
+     "goals_active": 185,
+     "key_results": 415,
+     "issues_total": 73,
+     "critical": 6,
+     "major": 28,
+     "minor": 39,
+     "clean_goals_share": 68.6
+    }
+   },
+   {
+    "id": "RUN-004",
+    "number": 4,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-05",
+    "started_at": "2026-10-05T06:00:00+03:00",
+    "finished_at": "2026-10-05T06:14:00+03:00",
+    "compared_to_run_id": "RUN-003",
+    "error": null,
+    "totals": {
+     "goals_active": 184,
+     "key_results": 412,
+     "issues_total": 72,
+     "critical": 6,
+     "major": 29,
+     "minor": 37,
+     "clean_goals_share": 68.5
+    }
+   },
+   {
+    "id": "RUN-003",
+    "number": 3,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-09-28",
+    "started_at": "2026-09-28T06:00:00+03:00",
+    "finished_at": "2026-09-28T06:10:00+03:00",
+    "compared_to_run_id": "RUN-002",
+    "error": null,
+    "totals": {
+     "goals_active": 183,
+     "key_results": 409,
+     "issues_total": 67,
+     "critical": 7,
+     "major": 25,
+     "minor": 35,
+     "clean_goals_share": 69.4
+    }
+   },
+   {
+    "id": "RUN-002",
+    "number": 2,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-09-21",
+    "started_at": "2026-09-21T06:00:00+03:00",
+    "finished_at": "2026-09-21T06:06:00+03:00",
+    "compared_to_run_id": "RUN-001",
+    "error": null,
+    "totals": {
+     "goals_active": 181,
+     "key_results": 405,
+     "issues_total": 56,
+     "critical": 7,
+     "major": 20,
+     "minor": 29,
+     "clean_goals_share": 73.5
+    }
+   },
+   {
+    "id": "RUN-001",
+    "number": 1,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-09-14",
+    "started_at": "2026-09-14T06:00:00+03:00",
+    "finished_at": "2026-09-14T06:09:00+03:00",
+    "compared_to_run_id": null,
+    "error": null,
+    "totals": {
+     "goals_active": 180,
+     "key_results": 406,
+     "issues_total": 54,
+     "critical": 6,
+     "major": 20,
+     "minor": 28,
+     "clean_goals_share": 73.9
+    }
+   }
+  ],
+  "total": 8,
+  "limit": 100,
+  "offset": 0
+ },
+ "summary": {
+  "B2B": {
+   "run": {
+    "id": "RUN-008",
+    "number": 8,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-11-02",
+    "started_at": "2026-11-02T06:00:00+03:00",
+    "finished_at": "2026-11-02T06:05:00+03:00",
+    "compared_to_run_id": "RUN-007",
+    "error": null
+   },
+   "compared_to": {
+    "id": "RUN-007",
+    "number": 7,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-26",
+    "started_at": "2026-10-26T06:00:00+03:00",
+    "finished_at": "2026-10-26T06:12:00+03:00",
+    "compared_to_run_id": "RUN-005",
+    "error": null
+   },
+   "unit": {
+    "id": "B2B",
+    "name": "Корпоративный блок",
+    "level": "block",
+    "parent_id": null,
+    "path": [
+     {
+      "id": "B2B",
+      "name": "Корпоративный блок"
+     }
+    ]
+   },
+   "metrics": [
+    {
+     "key": "clean_goals_share",
+     "title": "Доля корректных целей",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "активные цели без проблем ÷ все активные цели × 100",
+     "value": 75.8,
+     "previous": 75,
+     "delta": 0.8,
+     "delta_pct": 1.1,
+     "trend": "better"
+    },
+    {
+     "key": "goals_active",
+     "title": "Активные цели",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "количество целей в статусе active",
+     "value": 190,
+     "previous": 188,
+     "delta": 2,
+     "delta_pct": 1.1,
+     "trend": null
+    },
+    {
+     "key": "key_results",
+     "title": "Ключевые результаты",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "количество КР активных целей",
+     "value": 430,
+     "previous": 424,
+     "delta": 6,
+     "delta_pct": 1.4,
+     "trend": null
+    },
+    {
+     "key": "goals_with_issues",
+     "title": "Цели с проблемами",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "активные цели, у которых есть хотя бы одна проблема (по цели или её КР)",
+     "value": 46,
+     "previous": 47,
+     "delta": -1,
+     "delta_pct": -2.1,
+     "trend": "better"
+    },
+    {
+     "key": "issues_total",
+     "title": "Найдено проблем",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "количество нарушений правил ККД",
+     "value": 61,
+     "previous": 61,
+     "delta": 0,
+     "delta_pct": 0,
+     "trend": "same"
+    },
+    {
+     "key": "critical_issues",
+     "title": "Критичные проблемы",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "количество нарушений с severity = critical",
+     "value": 4,
+     "previous": 4,
+     "delta": 0,
+     "delta_pct": 0,
+     "trend": "same"
+    },
+    {
+     "key": "cascade_coverage",
+     "title": "Покрытие каскадом",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "цели (кроме уровня блока) с корректной связью с вышестоящей ÷ все такие цели × 100",
+     "value": 91.9,
+     "previous": 96.2,
+     "delta": -4.3,
+     "delta_pct": -4.5,
+     "trend": "worse"
+    },
+    {
+     "key": "kr_completeness",
+     "title": "Заполненность КР",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "КР с целевым значением и единицей измерения ÷ все КР × 100",
+     "value": 96.7,
+     "previous": 95.8,
+     "delta": 0.9,
+     "delta_pct": 0.9,
+     "trend": "better"
+    },
+    {
+     "key": "avg_kr_per_goal",
+     "title": "КР на цель (среднее)",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "КР активных целей ÷ активные цели",
+     "value": 2.26,
+     "previous": 2.26,
+     "delta": 0,
+     "delta_pct": 0,
+     "trend": "same"
+    }
+   ],
+   "issues_by_severity": [
+    {
+     "code": "critical",
+     "title": "Критичная",
+     "current": 4,
+     "previous": 4,
+     "delta": 0
+    },
+    {
+     "code": "major",
+     "title": "Существенная",
+     "current": 31,
+     "previous": 28,
+     "delta": 3
+    },
+    {
+     "code": "minor",
+     "title": "Незначительная",
+     "current": 26,
+     "previous": 29,
+     "delta": -3
+    }
+   ],
+   "issues_by_rule": [
+    {
+     "code": "GOAL_NO_OWNER",
+     "title": "Цель без ответственного",
+     "severity": "critical",
+     "object_type": "goal",
+     "current": 3,
+     "previous": 2,
+     "delta": 1
+    },
+    {
+     "code": "GOAL_NO_KR",
+     "title": "Цель без ключевых результатов",
+     "severity": "critical",
+     "object_type": "goal",
+     "current": 1,
+     "previous": 2,
+     "delta": -1
+    },
+    {
+     "code": "KR_WEIGHTS_SUM",
+     "title": "Сумма весов КР не равна 100%",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 4,
+     "previous": 5,
+     "delta": -1
+    },
+    {
+     "code": "CASCADE_NO_PARENT",
+     "title": "Цель не связана с вышестоящей",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 8,
+     "previous": 4,
+     "delta": 4
+    },
+    {
+     "code": "CASCADE_WRONG_LEVEL",
+     "title": "Нарушена структура каскада",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 5,
+     "previous": 1,
+     "delta": 4
+    },
+    {
+     "code": "CASCADE_PARENT_INACTIVE",
+     "title": "Родительская цель закрыта или отменена",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 2,
+     "previous": 2,
+     "delta": 0
+    },
+    {
+     "code": "GOAL_DEADLINE_OUT_OF_PERIOD",
+     "title": "Срок цели вне периода целеполагания",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 4,
+     "previous": 6,
+     "delta": -2
+    },
+    {
+     "code": "GOAL_DUPLICATE",
+     "title": "Дубль цели",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 0,
+     "previous": 1,
+     "delta": -1
+    },
+    {
+     "code": "KR_NO_TARGET",
+     "title": "КР без целевого значения",
+     "severity": "major",
+     "object_type": "key_result",
+     "current": 7,
+     "previous": 10,
+     "delta": -3
+    },
+    {
+     "code": "KR_NO_UNIT",
+     "title": "КР без единицы измерения",
+     "severity": "major",
+     "object_type": "key_result",
+     "current": 7,
+     "previous": 8,
+     "delta": -1
+    },
+    {
+     "code": "KR_STALE_PROGRESS",
+     "title": "Прогресс КР давно не обновлялся",
+     "severity": "minor",
+     "object_type": "key_result",
+     "current": 14,
+     "previous": 15,
+     "delta": -1
+    },
+    {
+     "code": "KR_FACT_OUTLIER",
+     "title": "Подозрительное фактическое значение",
+     "severity": "minor",
+     "object_type": "key_result",
+     "current": 6,
+     "previous": 5,
+     "delta": 1
+    }
+   ],
+   "delta": {
+    "new": 13,
+    "persisting": 48,
+    "resolved": 13
+   }
+  },
+  "CIB-REG": {
+   "run": {
+    "id": "RUN-008",
+    "number": 8,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-11-02",
+    "started_at": "2026-11-02T06:00:00+03:00",
+    "finished_at": "2026-11-02T06:05:00+03:00",
+    "compared_to_run_id": "RUN-007",
+    "error": null
+   },
+   "compared_to": {
+    "id": "RUN-007",
+    "number": 7,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-26",
+    "started_at": "2026-10-26T06:00:00+03:00",
+    "finished_at": "2026-10-26T06:12:00+03:00",
+    "compared_to_run_id": "RUN-005",
+    "error": null
+   },
+   "unit": {
+    "id": "CIB-REG",
+    "name": "Управление региональных продаж",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "path": [
+     {
+      "id": "B2B",
+      "name": "Корпоративный блок"
+     },
+     {
+      "id": "HQ-CIB",
+      "name": "Департамент корпоративного бизнеса"
+     },
+     {
+      "id": "CIB-REG",
+      "name": "Управление региональных продаж"
+     }
+    ]
+   },
+   "metrics": [
+    {
+     "key": "clean_goals_share",
+     "title": "Доля корректных целей",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "активные цели без проблем ÷ все активные цели × 100",
+     "value": 36.4,
+     "previous": 61.9,
+     "delta": -25.5,
+     "delta_pct": -41.2,
+     "trend": "worse"
+    },
+    {
+     "key": "goals_active",
+     "title": "Активные цели",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "количество целей в статусе active",
+     "value": 22,
+     "previous": 21,
+     "delta": 1,
+     "delta_pct": 4.8,
+     "trend": null
+    },
+    {
+     "key": "key_results",
+     "title": "Ключевые результаты",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "количество КР активных целей",
+     "value": 46,
+     "previous": 44,
+     "delta": 2,
+     "delta_pct": 4.5,
+     "trend": null
+    },
+    {
+     "key": "goals_with_issues",
+     "title": "Цели с проблемами",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "активные цели, у которых есть хотя бы одна проблема (по цели или её КР)",
+     "value": 14,
+     "previous": 8,
+     "delta": 6,
+     "delta_pct": 75,
+     "trend": "worse"
+    },
+    {
+     "key": "issues_total",
+     "title": "Найдено проблем",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "количество нарушений правил ККД",
+     "value": 18,
+     "previous": 9,
+     "delta": 9,
+     "delta_pct": 100,
+     "trend": "worse"
+    },
+    {
+     "key": "critical_issues",
+     "title": "Критичные проблемы",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "количество нарушений с severity = critical",
+     "value": 1,
+     "previous": 1,
+     "delta": 0,
+     "delta_pct": 0,
+     "trend": "same"
+    },
+    {
+     "key": "cascade_coverage",
+     "title": "Покрытие каскадом",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "цели (кроме уровня блока) с корректной связью с вышестоящей ÷ все такие цели × 100",
+     "value": 59.1,
+     "previous": 100,
+     "delta": -40.9,
+     "delta_pct": -40.9,
+     "trend": "worse"
+    },
+    {
+     "key": "kr_completeness",
+     "title": "Заполненность КР",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "КР с целевым значением и единицей измерения ÷ все КР × 100",
+     "value": 93.5,
+     "previous": 93.2,
+     "delta": 0.3,
+     "delta_pct": 0.3,
+     "trend": "better"
+    },
+    {
+     "key": "avg_kr_per_goal",
+     "title": "КР на цель (среднее)",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "КР активных целей ÷ активные цели",
+     "value": 2.09,
+     "previous": 2.1,
+     "delta": -0.01,
+     "delta_pct": -0.5,
+     "trend": null
+    }
+   ],
+   "issues_by_severity": [
+    {
+     "code": "critical",
+     "title": "Критичная",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "major",
+     "title": "Существенная",
+     "current": 13,
+     "previous": 4,
+     "delta": 9
+    },
+    {
+     "code": "minor",
+     "title": "Незначительная",
+     "current": 4,
+     "previous": 4,
+     "delta": 0
+    }
+   ],
+   "issues_by_rule": [
+    {
+     "code": "GOAL_NO_OWNER",
+     "title": "Цель без ответственного",
+     "severity": "critical",
+     "object_type": "goal",
+     "current": 0,
+     "previous": 0,
+     "delta": 0
+    },
+    {
+     "code": "GOAL_NO_KR",
+     "title": "Цель без ключевых результатов",
+     "severity": "critical",
+     "object_type": "goal",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "KR_WEIGHTS_SUM",
+     "title": "Сумма весов КР не равна 100%",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "CASCADE_NO_PARENT",
+     "title": "Цель не связана с вышестоящей",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 4,
+     "previous": 0,
+     "delta": 4
+    },
+    {
+     "code": "CASCADE_WRONG_LEVEL",
+     "title": "Нарушена структура каскада",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 5,
+     "previous": 0,
+     "delta": 5
+    },
+    {
+     "code": "CASCADE_PARENT_INACTIVE",
+     "title": "Родительская цель закрыта или отменена",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 0,
+     "previous": 0,
+     "delta": 0
+    },
+    {
+     "code": "GOAL_DEADLINE_OUT_OF_PERIOD",
+     "title": "Срок цели вне периода целеполагания",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "GOAL_DUPLICATE",
+     "title": "Дубль цели",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 0,
+     "previous": 0,
+     "delta": 0
+    },
+    {
+     "code": "KR_NO_TARGET",
+     "title": "КР без целевого значения",
+     "severity": "major",
+     "object_type": "key_result",
+     "current": 2,
+     "previous": 2,
+     "delta": 0
+    },
+    {
+     "code": "KR_NO_UNIT",
+     "title": "КР без единицы измерения",
+     "severity": "major",
+     "object_type": "key_result",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "KR_STALE_PROGRESS",
+     "title": "Прогресс КР давно не обновлялся",
+     "severity": "minor",
+     "object_type": "key_result",
+     "current": 3,
+     "previous": 3,
+     "delta": 0
+    },
+    {
+     "code": "KR_FACT_OUTLIER",
+     "title": "Подозрительное фактическое значение",
+     "severity": "minor",
+     "object_type": "key_result",
+     "current": 0,
+     "previous": 0,
+     "delta": 0
+    }
+   ],
+   "delta": {
+    "new": 9,
+    "persisting": 9,
+    "resolved": 0
+   }
+  },
+  "HQ-CIB": {
+   "run": {
+    "id": "RUN-008",
+    "number": 8,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-11-02",
+    "started_at": "2026-11-02T06:00:00+03:00",
+    "finished_at": "2026-11-02T06:05:00+03:00",
+    "compared_to_run_id": "RUN-007",
+    "error": null
+   },
+   "compared_to": {
+    "id": "RUN-007",
+    "number": 7,
+    "status": "completed",
+    "trigger": "schedule",
+    "snapshot_date": "2026-10-26",
+    "started_at": "2026-10-26T06:00:00+03:00",
+    "finished_at": "2026-10-26T06:12:00+03:00",
+    "compared_to_run_id": "RUN-005",
+    "error": null
+   },
+   "unit": {
+    "id": "HQ-CIB",
+    "name": "Департамент корпоративного бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "path": [
+     {
+      "id": "B2B",
+      "name": "Корпоративный блок"
+     },
+     {
+      "id": "HQ-CIB",
+      "name": "Департамент корпоративного бизнеса"
+     }
+    ]
+   },
+   "metrics": [
+    {
+     "key": "clean_goals_share",
+     "title": "Доля корректных целей",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "активные цели без проблем ÷ все активные цели × 100",
+     "value": 56.5,
+     "previous": 62.7,
+     "delta": -6.2,
+     "delta_pct": -9.9,
+     "trend": "worse"
+    },
+    {
+     "key": "goals_active",
+     "title": "Активные цели",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "количество целей в статусе active",
+     "value": 69,
+     "previous": 67,
+     "delta": 2,
+     "delta_pct": 3,
+     "trend": null
+    },
+    {
+     "key": "key_results",
+     "title": "Ключевые результаты",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "количество КР активных целей",
+     "value": 153,
+     "previous": 149,
+     "delta": 4,
+     "delta_pct": 2.7,
+     "trend": null
+    },
+    {
+     "key": "goals_with_issues",
+     "title": "Цели с проблемами",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "активные цели, у которых есть хотя бы одна проблема (по цели или её КР)",
+     "value": 30,
+     "previous": 25,
+     "delta": 5,
+     "delta_pct": 20,
+     "trend": "worse"
+    },
+    {
+     "key": "issues_total",
+     "title": "Найдено проблем",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "количество нарушений правил ККД",
+     "value": 43,
+     "previous": 35,
+     "delta": 8,
+     "delta_pct": 22.9,
+     "trend": "worse"
+    },
+    {
+     "key": "critical_issues",
+     "title": "Критичные проблемы",
+     "unit": "шт.",
+     "higher_is_better": false,
+     "formula": "количество нарушений с severity = critical",
+     "value": 2,
+     "previous": 2,
+     "delta": 0,
+     "delta_pct": 0,
+     "trend": "same"
+    },
+    {
+     "key": "cascade_coverage",
+     "title": "Покрытие каскадом",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "цели (кроме уровня блока) с корректной связью с вышестоящей ÷ все такие цели × 100",
+     "value": 84.1,
+     "previous": 95.5,
+     "delta": -11.4,
+     "delta_pct": -11.9,
+     "trend": "worse"
+    },
+    {
+     "key": "kr_completeness",
+     "title": "Заполненность КР",
+     "unit": "%",
+     "higher_is_better": true,
+     "formula": "КР с целевым значением и единицей измерения ÷ все КР × 100",
+     "value": 93.5,
+     "previous": 93.3,
+     "delta": 0.2,
+     "delta_pct": 0.2,
+     "trend": "better"
+    },
+    {
+     "key": "avg_kr_per_goal",
+     "title": "КР на цель (среднее)",
+     "unit": "шт.",
+     "higher_is_better": null,
+     "formula": "КР активных целей ÷ активные цели",
+     "value": 2.22,
+     "previous": 2.22,
+     "delta": 0,
+     "delta_pct": 0,
+     "trend": "same"
+    }
+   ],
+   "issues_by_severity": [
+    {
+     "code": "critical",
+     "title": "Критичная",
+     "current": 2,
+     "previous": 2,
+     "delta": 0
+    },
+    {
+     "code": "major",
+     "title": "Существенная",
+     "current": 23,
+     "previous": 15,
+     "delta": 8
+    },
+    {
+     "code": "minor",
+     "title": "Незначительная",
+     "current": 18,
+     "previous": 18,
+     "delta": 0
+    }
+   ],
+   "issues_by_rule": [
+    {
+     "code": "GOAL_NO_OWNER",
+     "title": "Цель без ответственного",
+     "severity": "critical",
+     "object_type": "goal",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "GOAL_NO_KR",
+     "title": "Цель без ключевых результатов",
+     "severity": "critical",
+     "object_type": "goal",
+     "current": 1,
+     "previous": 1,
+     "delta": 0
+    },
+    {
+     "code": "KR_WEIGHTS_SUM",
+     "title": "Сумма весов КР не равна 100%",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 4,
+     "previous": 4,
+     "delta": 0
+    },
+    {
+     "code": "CASCADE_NO_PARENT",
+     "title": "Цель не связана с вышестоящей",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 4,
+     "previous": 0,
+     "delta": 4
+    },
+    {
+     "code": "CASCADE_WRONG_LEVEL",
+     "title": "Нарушена структура каскада",
+     "severity": "major",
+     "object_type": "goal",
+     "current": 5,
+     "previous": 1,
+     "delta": 4
+    },
+    {
+     "code": "CASCADE_PARENT_INACTIVE",
+     "title": "Родительская цель закрыта или отменена",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 2,
+     "previous": 2,
+     "delta": 0
+    },
+    {
+     "code": "GOAL_DEADLINE_OUT_OF_PERIOD",
+     "title": "Срок цели вне периода целеполагания",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 3,
+     "previous": 4,
+     "delta": -1
+    },
+    {
+     "code": "GOAL_DUPLICATE",
+     "title": "Дубль цели",
+     "severity": "minor",
+     "object_type": "goal",
+     "current": 0,
+     "previous": 0,
+     "delta": 0
+    },
+    {
+     "code": "KR_NO_TARGET",
+     "title": "КР без целевого значения",
+     "severity": "major",
+     "object_type": "key_result",
+     "current": 6,
+     "previous": 6,
+     "delta": 0
+    },
+    {
+     "code": "KR_NO_UNIT",
+     "title": "КР без единицы измерения",
+     "severity": "major",
+     "object_type": "key_result",
+     "current": 4,
+     "previous": 4,
+     "delta": 0
+    },
+    {
+     "code": "KR_STALE_PROGRESS",
+     "title": "Прогресс КР давно не обновлялся",
+     "severity": "minor",
+     "object_type": "key_result",
+     "current": 10,
+     "previous": 9,
+     "delta": 1
+    },
+    {
+     "code": "KR_FACT_OUTLIER",
+     "title": "Подозрительное фактическое значение",
+     "severity": "minor",
+     "object_type": "key_result",
+     "current": 3,
+     "previous": 3,
+     "delta": 0
+    }
+   ],
+   "delta": {
+    "new": 10,
+    "persisting": 33,
+    "resolved": 2
+   }
+  }
+ },
+ "units": {
+  "run": {
+   "id": "RUN-008",
+   "number": 8,
+   "status": "completed",
+   "trigger": "schedule",
+   "snapshot_date": "2026-11-02",
+   "started_at": "2026-11-02T06:00:00+03:00",
+   "finished_at": "2026-11-02T06:05:00+03:00",
+   "compared_to_run_id": "RUN-007",
+   "error": null
+  },
+  "compared_to": {
+   "id": "RUN-007",
+   "number": 7,
+   "status": "completed",
+   "trigger": "schedule",
+   "snapshot_date": "2026-10-26",
+   "started_at": "2026-10-26T06:00:00+03:00",
+   "finished_at": "2026-10-26T06:12:00+03:00",
+   "compared_to_run_id": "RUN-005",
+   "error": null
+  },
+  "items": [
+   {
+    "id": "B2B",
+    "name": "Корпоративный блок",
+    "level": "block",
+    "parent_id": null,
+    "depth": 0,
+    "goals_active": 190,
+    "goals_with_issues": 46,
+    "issues_total": 61,
+    "critical_issues": 4,
+    "clean_goals_share": 75.8,
+    "clean_goals_share_previous": 75,
+    "clean_goals_share_delta": 0.8,
+    "new_issues": 13,
+    "resolved_issues": 13
+   },
+   {
+    "id": "HQ-CIB",
+    "name": "Департамент корпоративного бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "depth": 1,
+    "goals_active": 69,
+    "goals_with_issues": 30,
+    "issues_total": 43,
+    "critical_issues": 2,
+    "clean_goals_share": 56.5,
+    "clean_goals_share_previous": 62.7,
+    "clean_goals_share_delta": -6.2,
+    "new_issues": 10,
+    "resolved_issues": 2
+   },
+   {
+    "id": "CIB-KEY",
+    "name": "Управление по работе с ключевыми клиентами",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "depth": 2,
+    "goals_active": 22,
+    "goals_with_issues": 9,
+    "issues_total": 15,
+    "critical_issues": 1,
+    "clean_goals_share": 59.1,
+    "clean_goals_share_previous": 61.9,
+    "clean_goals_share_delta": -2.8,
+    "new_issues": 1,
+    "resolved_issues": 0
+   },
+   {
+    "id": "CIB-REG",
+    "name": "Управление региональных продаж",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "depth": 2,
+    "goals_active": 22,
+    "goals_with_issues": 14,
+    "issues_total": 18,
+    "critical_issues": 1,
+    "clean_goals_share": 36.4,
+    "clean_goals_share_previous": 61.9,
+    "clean_goals_share_delta": -25.5,
+    "new_issues": 9,
+    "resolved_issues": 0
+   },
+   {
+    "id": "CIB-TRADE",
+    "name": "Отдел торгового финансирования",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "depth": 2,
+    "goals_active": 20,
+    "goals_with_issues": 5,
+    "issues_total": 8,
+    "critical_issues": 0,
+    "clean_goals_share": 75,
+    "clean_goals_share_previous": 65,
+    "clean_goals_share_delta": 10,
+    "new_issues": 0,
+    "resolved_issues": 2
+   },
+   {
+    "id": "HQ-SME",
+    "name": "Департамент малого и среднего бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "depth": 1,
+    "goals_active": 69,
+    "goals_with_issues": 7,
+    "issues_total": 7,
+    "critical_issues": 1,
+    "clean_goals_share": 89.9,
+    "clean_goals_share_previous": 79.7,
+    "clean_goals_share_delta": 10.2,
+    "new_issues": 1,
+    "resolved_issues": 10
+   },
+   {
+    "id": "SME-ACQ",
+    "name": "Управление привлечения клиентов",
+    "level": "unit",
+    "parent_id": "HQ-SME",
+    "depth": 2,
+    "goals_active": 20,
+    "goals_with_issues": 1,
+    "issues_total": 1,
+    "critical_issues": 0,
+    "clean_goals_share": 95,
+    "clean_goals_share_previous": 85,
+    "clean_goals_share_delta": 10,
+    "new_issues": 0,
+    "resolved_issues": 2
+   },
+   {
+    "id": "SME-SRV",
+    "name": "Управление сервиса и удержания",
+    "level": "unit",
+    "parent_id": "HQ-SME",
+    "depth": 2,
+    "goals_active": 22,
+    "goals_with_issues": 2,
+    "issues_total": 2,
+    "critical_issues": 0,
+    "clean_goals_share": 90.9,
+    "clean_goals_share_previous": 78.3,
+    "clean_goals_share_delta": 12.6,
+    "new_issues": 1,
+    "resolved_issues": 5
+   },
+   {
+    "id": "SME-DIG",
+    "name": "Отдел цифровых каналов",
+    "level": "unit",
+    "parent_id": "HQ-SME",
+    "depth": 2,
+    "goals_active": 22,
+    "goals_with_issues": 4,
+    "issues_total": 4,
+    "critical_issues": 1,
+    "clean_goals_share": 81.8,
+    "clean_goals_share_previous": 76.2,
+    "clean_goals_share_delta": 5.6,
+    "new_issues": 0,
+    "resolved_issues": 2
+   },
+   {
+    "id": "HQ-TX",
+    "name": "Департамент транзакционного бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "depth": 1,
+    "goals_active": 47,
+    "goals_with_issues": 9,
+    "issues_total": 11,
+    "critical_issues": 1,
+    "clean_goals_share": 80.9,
+    "clean_goals_share_previous": 83,
+    "clean_goals_share_delta": -2.1,
+    "new_issues": 2,
+    "resolved_issues": 1
+   },
+   {
+    "id": "TX-ACQ",
+    "name": "Управление эквайринга",
+    "level": "unit",
+    "parent_id": "HQ-TX",
+    "depth": 2,
+    "goals_active": 22,
+    "goals_with_issues": 8,
+    "issues_total": 10,
+    "critical_issues": 1,
+    "clean_goals_share": 63.6,
+    "clean_goals_share_previous": 68.2,
+    "clean_goals_share_delta": -4.6,
+    "new_issues": 2,
+    "resolved_issues": 0
+   },
+   {
+    "id": "TX-SAL",
+    "name": "Управление зарплатных проектов",
+    "level": "unit",
+    "parent_id": "HQ-TX",
+    "depth": 2,
+    "goals_active": 20,
+    "goals_with_issues": 0,
+    "issues_total": 0,
+    "critical_issues": 0,
+    "clean_goals_share": 100,
+    "clean_goals_share_previous": 100,
+    "clean_goals_share_delta": 0,
+    "new_issues": 0,
+    "resolved_issues": 0
+   },
+   {
+    "id": "TX-NEW",
+    "name": "Отдел платёжных сервисов",
+    "level": "unit",
+    "parent_id": "HQ-TX",
+    "depth": 2,
+    "goals_active": 0,
+    "goals_with_issues": 0,
+    "issues_total": 0,
+    "critical_issues": 0,
+    "clean_goals_share": null,
+    "clean_goals_share_previous": null,
+    "clean_goals_share_delta": null,
+    "new_issues": 0,
+    "resolved_issues": 0
+   }
+  ]
+ },
+ "trend": {
+  "B2B": {
+   "unit": {
+    "id": "B2B",
+    "name": "Корпоративный блок",
+    "level": "block",
+    "parent_id": null,
+    "path": [
+     {
+      "id": "B2B",
+      "name": "Корпоративный блок"
+     }
+    ]
+   },
+   "metric": {
+    "key": "clean_goals_share",
+    "title": "Доля корректных целей",
+    "unit": "%",
+    "higher_is_better": true
+   },
+   "points": [
+    {
+     "run_id": "RUN-001",
+     "snapshot_date": "2026-09-14",
+     "run_status": "completed",
+     "value": 73.9
+    },
+    {
+     "run_id": "RUN-002",
+     "snapshot_date": "2026-09-21",
+     "run_status": "completed",
+     "value": 73.5
+    },
+    {
+     "run_id": "RUN-003",
+     "snapshot_date": "2026-09-28",
+     "run_status": "completed",
+     "value": 69.4
+    },
+    {
+     "run_id": "RUN-004",
+     "snapshot_date": "2026-10-05",
+     "run_status": "completed",
+     "value": 68.5
+    },
+    {
+     "run_id": "RUN-005",
+     "snapshot_date": "2026-10-12",
+     "run_status": "completed",
+     "value": 68.6
+    },
+    {
+     "run_id": "RUN-006",
+     "snapshot_date": "2026-10-19",
+     "run_status": "failed",
+     "value": null
+    },
+    {
+     "run_id": "RUN-007",
+     "snapshot_date": "2026-10-26",
+     "run_status": "completed",
+     "value": 75
+    },
+    {
+     "run_id": "RUN-008",
+     "snapshot_date": "2026-11-02",
+     "run_status": "completed",
+     "value": 75.8
+    }
+   ]
+  },
+  "CIB-REG": {
+   "unit": {
+    "id": "CIB-REG",
+    "name": "Управление региональных продаж",
+    "level": "unit",
+    "parent_id": "HQ-CIB",
+    "path": [
+     {
+      "id": "B2B",
+      "name": "Корпоративный блок"
+     },
+     {
+      "id": "HQ-CIB",
+      "name": "Департамент корпоративного бизнеса"
+     },
+     {
+      "id": "CIB-REG",
+      "name": "Управление региональных продаж"
+     }
+    ]
+   },
+   "metric": {
+    "key": "clean_goals_share",
+    "title": "Доля корректных целей",
+    "unit": "%",
+    "higher_is_better": true
+   },
+   "points": [
+    {
+     "run_id": "RUN-001",
+     "snapshot_date": "2026-09-14",
+     "run_status": "completed",
+     "value": 61.9
+    },
+    {
+     "run_id": "RUN-002",
+     "snapshot_date": "2026-09-21",
+     "run_status": "completed",
+     "value": 66.7
+    },
+    {
+     "run_id": "RUN-003",
+     "snapshot_date": "2026-09-28",
+     "run_status": "completed",
+     "value": 66.7
+    },
+    {
+     "run_id": "RUN-004",
+     "snapshot_date": "2026-10-05",
+     "run_status": "completed",
+     "value": 66.7
+    },
+    {
+     "run_id": "RUN-005",
+     "snapshot_date": "2026-10-12",
+     "run_status": "completed",
+     "value": 61.9
+    },
+    {
+     "run_id": "RUN-006",
+     "snapshot_date": "2026-10-19",
+     "run_status": "failed",
+     "value": null
+    },
+    {
+     "run_id": "RUN-007",
+     "snapshot_date": "2026-10-26",
+     "run_status": "completed",
+     "value": 61.9
+    },
+    {
+     "run_id": "RUN-008",
+     "snapshot_date": "2026-11-02",
+     "run_status": "completed",
+     "value": 36.4
+    }
+   ]
+  },
+  "HQ-CIB": {
+   "unit": {
+    "id": "HQ-CIB",
+    "name": "Департамент корпоративного бизнеса",
+    "level": "hq",
+    "parent_id": "B2B",
+    "path": [
+     {
+      "id": "B2B",
+      "name": "Корпоративный блок"
+     },
+     {
+      "id": "HQ-CIB",
+      "name": "Департамент корпоративного бизнеса"
+     }
+    ]
+   },
+   "metric": {
+    "key": "clean_goals_share",
+    "title": "Доля корректных целей",
+    "unit": "%",
+    "higher_is_better": true
+   },
+   "points": [
+    {
+     "run_id": "RUN-001",
+     "snapshot_date": "2026-09-14",
+     "run_status": "completed",
+     "value": 68.8
+    },
+    {
+     "run_id": "RUN-002",
+     "snapshot_date": "2026-09-21",
+     "run_status": "completed",
+     "value": 70.8
+    },
+    {
+     "run_id": "RUN-003",
+     "snapshot_date": "2026-09-28",
+     "run_status": "completed",
+     "value": 69.2
+    },
+    {
+     "run_id": "RUN-004",
+     "snapshot_date": "2026-10-05",
+     "run_status": "completed",
+     "value": 66.7
+    },
+    {
+     "run_id": "RUN-005",
+     "snapshot_date": "2026-10-12",
+     "run_status": "completed",
+     "value": 63.1
+    },
+    {
+     "run_id": "RUN-006",
+     "snapshot_date": "2026-10-19",
+     "run_status": "failed",
+     "value": null
+    },
+    {
+     "run_id": "RUN-007",
+     "snapshot_date": "2026-10-26",
+     "run_status": "completed",
+     "value": 62.7
+    },
+    {
+     "run_id": "RUN-008",
+     "snapshot_date": "2026-11-02",
+     "run_status": "completed",
+     "value": 56.5
+    }
+   ]
+  }
+ },
+ "issues": {
+  "run_id": "RUN-008",
+  "items": [
+   {
+    "id": "ISS-8E97CCCACA",
+    "rule_code": "GOAL_NO_OWNER",
+    "rule_title": "Цель без ответственного",
+    "severity": "critical",
+    "object_type": "goal",
+    "object_id": "G-00021",
+    "goal_id": "G-00021",
+    "goal_title": "Рост доходов от ключевых продуктов",
+    "goal_level": "unit",
+    "kr_id": null,
+    "kr_title": null,
+    "unit_id": "CIB-KEY",
+    "details": "Поле «Ответственный» не заполнено",
+    "actual": null,
+    "expected": "сотрудник",
+    "recommendation": "Назначить ответственного за цель в модуле «Цели».",
+    "unit_name": "Управление по работе с ключевыми клиентами",
+    "owner": null,
+    "delta_status": "persisting",
+    "first_detected_run_id": "RUN-001",
+    "first_detected_at": "2026-09-14",
+    "runs_in_row": 7
+   },
+   {
+    "id": "ISS-3FA5212058",
+    "rule_code": "GOAL_NO_KR",
+    "rule_title": "Цель без ключевых результатов",
+    "severity": "critical",
+    "object_type": "goal",
+    "object_id": "G-00064",
+    "goal_id": "G-00064",
+    "goal_title": "Рост доходности клиентского портфеля",
+    "goal_level": "employee",
+    "kr_id": null,
+    "kr_title": null,
+    "unit_id": "CIB-REG",
+    "details": "У цели 0 ключевых результатов",
+    "actual": 0,
+    "expected": ">= 1",
+    "recommendation": "Добавить 1–5 измеримых ключевых результатов.",
+    "unit_name": "Управление региональных продаж",
+    "owner": {
+     "id": "E-0029",
+     "full_name": "Захарова Ольга",
+     "position": "Менеджер по продукту"
+    },
+    "delta_status": "persisting",
+    "first_detected_run_id": "RUN-001",
+    "first_detected_at": "2026-09-14",
+    "runs_in_row": 7
+   },
+   {
+    "id": "ISS-F7486B629D",
+    "rule_code": "GOAL_NO_OWNER",
+    "rule_title": "Цель без ответственного",
+    "severity": "critical",
+    "object_type": "goal",
+    "object_id": "G-00142",
+    "goal_id": "G-00142",
+    "goal_title": "Сокращение срока обработки заявок",
+    "goal_level": "employee",
+    "kr_id": null,
+    "kr_title": null,
+    "unit_id": "SME-DIG",
+    "details": "Поле «Ответственный» не заполнено",
+    "actual": null,
+    "expected": "сотрудник",
+    "recommendation": "Назначить ответственного за цель в модуле «Цели».",
+    "unit_name": "Отдел цифровых каналов",
+    "owner": null,
+    "delta_status": "persisting",
+    "first_detected_run_id": "RUN-001",
+    "first_detected_at": "2026-09-14",
+    "runs_in_row": 7
+   }
+  ],
+  "total": 61,
+  "limit": 20,
+  "offset": 0
+ }
+}

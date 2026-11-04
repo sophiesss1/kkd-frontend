@@ -19,6 +19,9 @@ export default defineConfig(({ mode }) => {
       globals: true,
       setupFiles: './src/test/setup.ts',
       css: false,
+      // тесты рисуют страницу antd целиком, а jsdom считает доступные имена кнопок по содержимому —
+      // на медленной машине или в Docker 5 с по умолчанию впритык
+      testTimeout: 15_000,
     },
   };
 });

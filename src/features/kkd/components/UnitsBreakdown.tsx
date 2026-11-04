@@ -1,10 +1,11 @@
 import { ApartmentOutlined, CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import { Button, Skeleton } from 'antd';
 import { useState } from 'react';
-import { DeltaIndicator, NO_COMPARISON_TEXT, TREND_LABEL } from '../../../shared/DeltaIndicator';
+import { DeltaIndicator } from '../../../shared/DeltaIndicator';
 import { formatDelta, formatMetricValue, pluralize } from '../../../shared/format';
 import { QueryError } from '../../../shared/QueryError';
-import type { BreakdownRow, UnitsBreakdown as Breakdown } from '../unitsBreakdown';
+import { VisuallyHidden } from '../../../shared/VisuallyHidden';
+import type { BreakdownRow, UnitsBreakdownData } from '../unitsBreakdown';
 import { UnitsTreeModal } from './UnitsTreeModal';
 import styles from './UnitsBreakdown.module.css';
 
@@ -19,17 +20,11 @@ function RowMeta({ row }: { row: BreakdownRow }) {
   return parts.length ? <span className={styles.rowMeta}>{parts.join(' · ')}</span> : null;
 }
 
-function describeRow(row: BreakdownRow) {
-  const delta = row.clean_goals_share_delta;
-  const change =
-    delta === null ? NO_COMPARISON_TEXT : `${formatDelta(delta, '%')}${row.trend ? `, ${TREND_LABEL[row.trend]}` : ''}`;
-  return `${row.name}: ${formatMetricValue(row.clean_goals_share, '%')}, ${change}. Открыть подразделение`;
-}
-
+/** Имя кнопки для экранного диктора — всё её видимое содержимое (название, числа, дельта) и действие. */
 function UnitRow({ row, onSelect }: { row: BreakdownRow; onSelect: (unitId: string) => void }) {
   return (
     <li>
-      <button type="button" className={styles.row} onClick={() => onSelect(row.id)} aria-label={describeRow(row)}>
+      <button type="button" className={styles.row} onClick={() => onSelect(row.id)}>
         <span className={styles.rowName}>
           <span className={styles.unitName}>{row.name}</span>
           <RowMeta row={row} />
@@ -38,12 +33,13 @@ function UnitRow({ row, onSelect }: { row: BreakdownRow; onSelect: (unitId: stri
         <span className={styles.rowDelta}>
           <DeltaIndicator delta={row.clean_goals_share_delta} trend={row.trend} unit="%" size="small" />
         </span>
+        <VisuallyHidden>. Открыть подразделение</VisuallyHidden>
       </button>
     </li>
   );
 }
 
-function CountsLine({ breakdown }: { breakdown: Breakdown }) {
+function CountsLine({ breakdown }: { breakdown: UnitsBreakdownData }) {
   const { better, same, noComparison, noGoals } = breakdown.counts;
   const parts = [
     better && `улучшились: ${better}`,
@@ -56,7 +52,7 @@ function CountsLine({ breakdown }: { breakdown: Breakdown }) {
 
 interface Props {
   unitId: string;
-  breakdown: Breakdown | undefined;
+  breakdown: UnitsBreakdownData | undefined;
   error: unknown;
   onRetry: () => void;
   onSelectUnit: (unitId: string) => void;
@@ -112,7 +108,7 @@ export function UnitsBreakdown({ unitId, breakdown, error, onRetry, onSelectUnit
 
       <div className={styles.footer}>
         {hasComparison && <CountsLine breakdown={breakdown} />}
-        <Button icon={<ApartmentOutlined />} className={styles.treeButton} onClick={() => setTreeOpen(true)}>
+        <Button icon={<ApartmentOutlined aria-hidden />} className={styles.treeButton} onClick={() => setTreeOpen(true)}>
           Все подразделения ({descendants.length})
         </Button>
       </div>
@@ -135,7 +131,7 @@ export function UnitsBreakdown({ unitId, breakdown, error, onRetry, onSelectUnit
  * Оговорка к вердикту: итог по подразделению «лучше» или «без изменений», а внутри есть ухудшения.
  * Смысл передаётся текстом и значком, не только цветом.
  */
-export function BreakdownCaveat({ breakdown }: { breakdown: Breakdown }) {
+export function BreakdownCaveat({ breakdown }: { breakdown: UnitsBreakdownData }) {
   const [worst] = breakdown.worse;
   if (!worst || worst.clean_goals_share_delta === null) return null;
   const n = breakdown.worse.length;
